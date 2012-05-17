@@ -1,0 +1,45 @@
+figures(
+filloval(
+attrib(
+color(-16711936)
+depth(0)
+width(1)
+)
+226,162,111,107)
+fillrect(
+attrib(
+color(-16711936)
+depth(0)
+width(1)
+)
+249,92,66,82)
+lines(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+)
+249,173
+ 0,-83
+ 65,-83
+ 65,-2
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+)
+247,173
+ -17,25
+ -18,60
+ 1,85
+ 29,95
+ 64,88
+ 84,69
+ 91,43
+ 85,20
+ 76,7
+ 66,-2
+)
+)

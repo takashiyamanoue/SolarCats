@@ -1,0 +1,10 @@
+Distributed System Recorder
+Known Bugs (14 Feb. 2004)
+
+ - It freeses when operations were being recorded on a node with the 
+   Java 1.4.*. on a Linux.
+ - It freeses when operations were shared with nodes which inlucde
+   a node with the Java 1.4.*.
+ - You can't input letters on the Draw with the Java 1.4.*.
+ - Position of the paseted letters will be wrong at remote nodes
+   when the letters were pasted into the head of a line.

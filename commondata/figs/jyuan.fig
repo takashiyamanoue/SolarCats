@@ -1,0 +1,10 @@
+figures(
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(1)
+font("Dialog",1,30)
+)
+230,112,"寿庵")
+)

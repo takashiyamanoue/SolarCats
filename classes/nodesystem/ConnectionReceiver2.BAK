@@ -1,0 +1,63 @@
+package nodesystem;
+import java.io.*;
+import java.net.*;
+import java.util.*;
+public class ConnectionReceiver2 extends ConnectionReceiver
+{
+    public void stop()
+    {
+        if(me!=null){
+            me=null;
+            this.managersProcessQueue.closeAll();
+            this.ss.close();
+        }
+    }
+
+    public ManagersProcessQueue managersProcessQueue;
+
+
+    public TreeManager gMngr;
+
+    public void run()
+    {
+	    // listen loop
+	    while(me!=null){
+	        try{
+	            
+	            ns=ss.accept();
+	            ChildProc2 cp=new ChildProc2(ns,gui,gMngr,managersProcessQueue);
+	            
+//	            ChildProc2 cp=new ChildProc2(ss,gui,gMngr);
+//	            childprocesses.addElement(cp);
+	        }
+	        catch(java.io.IOException e){}
+	    }
+    }
+
+    public ConnectionReceiver2(MessageGui cc,
+                              int wellKnownPort, TreeManager tm) 
+    {
+        
+        gui=cc;
+        gMngr=tm;
+
+	    maxConnection=50;
+	    
+
+        try{
+    	    if(ss!=null){  ss.close();  }
+            ss=null;
+    	    ss=new ServerSocket(wellKnownPort);
+    	}
+    	catch(IOException e){
+    	    gui.appendMessage("failed to start accepting at the port:"+wellKnownPort+"\n");
+    	    return;
+    	}
+	    gui.appendMessage("Starting listen at port:"+wellKnownPort+"\n");
+//        childprocesses=new Vector();
+        managersProcessQueue=new ManagersProcessQueue();
+
+        start();
+    }
+}
+

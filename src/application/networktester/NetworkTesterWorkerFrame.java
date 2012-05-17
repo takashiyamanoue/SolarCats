@@ -1,0 +1,1146 @@
+/*
+		A basic implementation of the JFrame class.
+*/
+package application.networktester;
+
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Insets;
+import java.io.BufferedReader;
+import java.io.File;
+import java.util.StringTokenizer;
+import java.util.Vector;
+
+import nodesystem.Client;
+import nodesystem.CommunicationNode;
+import nodesystem.DialogListener;
+import nodesystem.EditDialog;
+import nodesystem.EventBuffer;
+import nodesystem.MessageGui;
+import controlledparts.ControlledButton;
+import controlledparts.ControlledFrame;
+import controlledparts.ControlledScrollPane;
+import controlledparts.ControlledTextArea;
+import controlledparts.FrameWithControlledButton;
+import controlledparts.FrameWithControlledFileDialog;
+import controlledparts.FrameWithControlledPane;
+import controlledparts.FrameWithControlledTextAreas;
+import controlledparts.SelectedButton;
+import javax.swing.ImageIcon;
+
+public class NetworkTesterWorkerFrame extends ControlledFrame implements DialogListener, FrameWithControlledFileDialog, FrameWithControlledTextAreas, MessageGui, FrameWithControlledButton, FrameWithControlledPane
+{
+    public String nextDoorControl(String s, Client c)
+    {
+        return null;
+    }
+
+    public void setTextOnTheText(int id, int pos, String s)
+    {
+        ControlledTextArea t=(ControlledTextArea)(this.texts.elementAt(id));
+		t.setTextAt(pos,s);
+    }
+
+    public Vector panes;
+
+    public void scrollBarValueChanged(int paneID, int barID, int v)
+    {
+        // This method is derived from interface FrameWithControlledPane
+        // to do: code goes here
+//        sendEvent("sb.value("+paneID+","+barID+","+v+")\n");
+    }
+    public void scrollBarShown(int paneID, int barID)
+    {
+        // This method is derived from interface FrameWithControlledPane
+        // to do: code goes here
+//        sendEvent("sb.shown("+paneID+","+barID+")\n");
+    }
+    public void scrollBarHidden(int paneID, int barID)
+    {
+        // This method is derived from interface FrameWithControlledPane
+        // to do: code goes here
+  //      sendEvent("sb.hidden("+paneID+","+barID+")\n");
+    }
+    public void hideScrollBar(int paneID, int barID)
+    {
+        ControlledScrollPane p=(ControlledScrollPane)(panes.elementAt(paneID));
+        p.hideScrollBar(barID);
+    }
+    public void showScrollBar(int paneID, int barID)
+    {
+         ControlledScrollPane p=(ControlledScrollPane)(panes.elementAt(paneID));
+         p.showScrollBar(barID);
+    }
+    public void changeScrollbarValue(int paneID, int barID, int value)
+    {
+        ControlledScrollPane p=(ControlledScrollPane)(panes.elementAt(paneID));
+        p.setScrollBarValue(barID,value);
+    }
+
+    public void init2()
+    {
+    }
+
+    public boolean isControlledByLocalUser()
+    {
+        // This method is derived from interface FrameWithControlledTextAreas
+        // to do: code goes here
+//        return super.isControlledByLocalUser();
+        return true;
+    }
+
+    public boolean isDirectOperation(){
+    	return true;
+    }
+
+    public boolean isShowingRmouse()
+    {
+        return false;
+    }
+
+    public void moveMouseOnTheText(int id, int x, int y)
+    {
+    }
+
+    public void mouseMoveAtTextArea(int id,int x, int y)
+    {
+    }
+
+    public void exitMouseOnTheText(int id, int x, int y)
+    {
+    }
+    public void mouseExitAtTheText(int id, int x, int y)
+    {
+    }
+    
+     public void enterMouseOnTheText(int id, int x, int y)
+     {
+     }
+     
+    public void mouseEnteredAtTheText(int id, int x, int y)
+    {
+    }
+    
+    public byte[] data;
+
+    public void connectNode(int i)
+    {
+            sendEvent("node "+i,"networktesterworker","returninfo "+this.communicationNode.serialNo);
+    }
+
+    public int timesOfReceived[];
+
+    public int timesOfSent[];
+
+    String commandName="networktesterworker";
+    String masterCommand="networktestermaster";
+    
+    public String getCommandName(){
+    	return commandName;
+    }
+
+    public void sendEvent(String x)
+    {
+    }
+
+    public String masterNode;
+
+    public int theLastUnit;
+
+    public void pressMouseOnTheText(int id, int p, int x, int y)
+    {
+    }
+
+    public void mousePressedAtTextArea(int id, int p, int x, int y)
+    {
+    }
+
+    public void sendEvent(String transmitMode, String command, String subcommand)
+    {
+        if(ebuff!=null)
+        this.ebuff.putS(transmitMode+" "+command+" "
+                 +subcommand+this.communicationNode.commandTranceiver.endOfACommand);
+    }
+
+
+    public EventBuffer ebuff;
+
+    public int testID;
+
+    public void setTestID(int id)
+    {
+        testID=id;
+    }
+
+    public int startTimeOfTheSent;
+
+    public String connectedAddress;
+
+    public void show()
+    {
+        super.show();
+        this.startClientServer();
+    }
+
+    public void startClientServer()
+    {
+	    wellknownPort=17320;
+	    if(server==null){
+    	    this.server=new NetworkTesterConnectionReceiver(this,wellknownPort);
+	        server.start();
+	    }
+	    if(client==null)
+	    this.client=new NetworkTesterClient(this);
+    }
+
+    public int pID;
+
+    public String encodingCode;
+
+    public void sendReceiveNTimes(int size,int n)
+    {      
+        if(size>client.dataBufferMax){
+            this.messages.append("size is too large(>"+client.dataBufferMax+")");
+            return;
+        }
+        data=new byte[size];
+	   	int startTime=communicationNode.eventRecorder.timer.getMilliTime();
+	   	startTimeOfTheSent=startTime;
+	   	String message=""+startTime + ",\"sendreceive-n start\","+size;
+	    this.messages.append(message+"\n");
+	    theLastUnit=n-1;
+ 	    // set start time to the data
+ 	    this.timesOfSent=new int[n];
+ 	    this.timesOfReceived=new int[n];
+
+        for(int i=0;i<n;i++){
+            sendReceive(size,i);
+        }
+   }
+
+    public void sendReceive(int size,int id)
+    {
+ //       client.start();
+//        byte[] data=new byte[size];
+	    
+	    // set record length to the data
+        data[0]=(byte)((size & 0xff000000)>>24);
+        data[1]=(byte)((size & 0x00ff0000)>>16);
+        data[2]=(byte)((size & 0x0000ff00)>> 8);
+        data[3]=(byte)( size & 0x000000ff);
+	    
+	    // set record No(id) to the data
+        data[4]=(byte)((id & 0xff000000)>>24);
+        data[5]=(byte)((id & 0x00ff0000)>>16);
+        data[6]=(byte)((id & 0x0000ff00)>> 8);
+        data[7]=(byte)( id & 0x000000ff);
+        
+        data[size-4]=data[4];
+        data[size-3]=data[5];
+        data[size-2]=data[6];
+        data[size-1]=data[7];
+        
+	   	int startTime=communicationNode.eventRecorder.timer.getMilliTime();
+ 	    // set start time to the data
+        data[8]=(byte)((startTime & 0xff000000)>>24);
+        data[9]=(byte)((startTime & 0x00ff0000)>>16);
+        data[10]=(byte)((startTime & 0x0000ff00)>> 8);
+        data[11]=(byte)( startTime & 0x000000ff);
+        
+//	   	startTimeOfTheSent=startTime;
+//	   	String message=""+startTime + ",\"send start\","+size;
+//	    this.messages.append(message+"\n");
+
+        timesOfSent[id]=communicationNode.eventRecorder.timer.getMilliTime();
+        client.putData(size,data);
+        
+/*	   	int endTime=communicationNode.eventRecorder.timer.getMilliTime();
+	   	String message=""+startTime + ","+testID+","+id+",\"send\","+"\""+connectedAddress+"\","+size;
+	    this.messages.append(message+","+(endTime-startTime)+"\n");
+        this.communicationNode.eventRecorder.recordMessage(message);
+ */
+    }
+
+    public void connectServer(String serverAddress)
+    {
+	   	int startTime=communicationNode.eventRecorder.timer.getMilliTime();
+	   	String message=""+startTime + ",\"connect start\"";
+	    this.messages.append(message+"\n");
+        
+        client.connect(serverAddress,wellknownPort);
+        connectedAddress=serverAddress;
+        
+	   	int endTime=communicationNode.eventRecorder.timer.getMilliTime();
+	   	message=""+endTime+","+startTime + ","+testID+",\"connect\","+"\""+
+	   	          serverAddress+"\",from,\""+this.communicationNode.getMyAddress()+
+	   	          "\","+(endTime-startTime);
+	    this.messages.append(message+"\n");
+        this.communicationNode.eventRecorder.recordMessage(message);
+    }
+
+    public void sendData(int n)
+    {
+    }
+
+    public int wellknownPort;
+
+    public NetworkTesterConnectionReceiver server;
+
+    public NetworkTesterClient client;
+
+    public void receiveData(int n, byte d[])
+    {
+        int time=communicationNode.eventRecorder.timer.getMilliTime();        
+       
+       // record no.(id)
+        int no=0;
+        for(int i=0;i<4;i++){
+            no=(no<<8)|(d[i+4] & 0x000000ff);
+        }
+        int nox=0;
+        for(int i=0;i<4;i++){
+            nox=(nox<<8)|(d[i+n-4] & 0x000000ff);
+        }
+        
+        timesOfReceived[no]=time;
+        messages.append("-data unit No."+no+" ("+nox+") is received\n");
+        if(no==this.theLastUnit){
+      
+           int length=0;
+           for(int i=0;i<4;i++){
+              length=(length<<8)|(d[i] & 0x000000ff);
+           }
+           int xtime=time-this.startTimeOfTheSent;
+           String bytePerSec="";
+           String bitPerSec="";
+           String theMessage="";
+           if(xtime!=0){
+                double x=((double)length*(no+1))*2/(xtime)*1000.0;
+                bytePerSec=""+x;
+                bitPerSec=""+(x*8);
+           }
+           else{
+               bytePerSec="\"na\"";
+               bitPerSec="\"na\"";
+           }
+           theMessage=""+time+","+startTimeOfTheSent+","+
+                  testID+",\"sendreceive-n done\","+length+","+
+               (no+1)+","+length*(no+1)+","+xtime+","+bytePerSec+",\"byte/sec\","+
+               bitPerSec+",\"bit/sec\"";
+ 	       this.messages.append(theMessage+"\n");
+           this.communicationNode.eventRecorder.recordMessage(theMessage);
+           this.sendEvent("node "+masterNode,"networktestermaster", 
+               "resultofnode "+this.communicationNode.serialNo+" "+theMessage);
+               
+           for(int i=0;i<no+1;i++){
+             xtime=this.timesOfReceived[i]-this.timesOfSent[i];
+             if(xtime!=0){
+                  double x=(((double)length)*2)/(xtime)*1000.0;
+                  bytePerSec=""+x;
+                  bitPerSec=""+(x*8);
+             }
+             else{
+                  bytePerSec="\"na\"";
+                  bitPerSec="\"na\"";
+             }
+             theMessage=""+this.timesOfReceived[i]+","+this.timesOfSent[i]+","+
+                  testID+",\"sendreceive-n ["+i+"]\","+length+","+
+                  i+","+length+","+xtime+","+bytePerSec+",\"byte/sec\","+
+                  bitPerSec+",\"bit/sec\"";
+ 	         this.messages.append(theMessage+"\n");
+             this.communicationNode.eventRecorder.recordMessage(theMessage);
+           }
+               
+           this.repaint();
+        }
+   }
+
+    public synchronized boolean parse(String command)
+    {
+        /*
+        command:
+          enter ... meta
+          clear ... meta
+          quit  ... meta
+          set <command> ... meta
+          connect <server-address>
+          sendreceive <datasize>
+          sendreceive-n <datasize> <times>
+          send <datasize>
+          receive
+          load <file-name>
+          testid <id>
+          returnnodeinfo <return-address>        
+        */
+        if(command.indexOf("enter")==0){
+            this.clickButton(0);
+//            String x=s.substring("chat ".length());
+            return true;
+        }
+        else
+        if(command.indexOf("clear")==0){
+            this.clickButton(1);
+            return true;
+        }
+        else
+        if(command.indexOf("clearmessage")==0){
+            this.clickButton(3);
+            return true;
+        }
+        else
+        if(command.indexOf("quit")==0){
+//            this.clickButton(2);
+            this.exitThis();
+            return true;
+        }
+        else
+        if(command.indexOf("set ")==0){
+            String x=command.substring("set ".length());
+            // set <command>
+            this.commandField.setText(x);
+            return true;
+        }
+        else
+        if(command.indexOf("connect ")==0){
+            String x=command.substring("connect ".length());
+            // connect <remote-host>
+            connectServer(x);
+            return true;
+        }
+        else
+        if(command.indexOf("connectnode ")==0){
+            String x=command.substring("connectnode ".length());
+            // connect <remote-host>
+            int id=(new Integer(x)).intValue();
+            connectNode(id);
+            return true;
+        }
+        else
+        if(command.indexOf("disconnect")==0){
+            // connect <remote-host>
+            if(client!=null)
+            client.disconnect();
+            return true;
+        }
+        else
+        if(command.indexOf("sendreceive ")==0){
+            BufferedReader dinstream=null;
+            String x=command.substring("sendreceive ".length());
+            // sendreceive <data-size>
+            int size=0;
+            try{
+               size=(new Integer(x)).intValue();
+            }
+            catch(Exception e){
+                messages.append("command format error\n");
+                return false;
+            }
+            this.sendReceiveNTimes(size,1);
+            return true;
+        }
+        else
+        if(command.indexOf("sendreceive-n ")==0){
+            BufferedReader dinstream=null;
+            String x=command.substring("sendreceive-n ".length());
+            // sendreceive-n <data-size> <times>
+            StringTokenizer st=new StringTokenizer(x," ");
+            String ssize=st.nextToken();
+            String stimes=st.nextToken();
+            int size;
+            int times;
+            try{
+               size=(new Integer(ssize)).intValue();
+               times=(new Integer(stimes)).intValue();
+            }
+            catch(Exception e){
+                messages.append("command format error\n");
+                return false;
+            }
+            this.sendReceiveNTimes(size,times);
+            return true;
+        }
+        else
+        if(command.indexOf("testid ")==0){
+            String x=command.substring("testid ".length());
+            // setTestID <testID>       
+            setTestID((new Integer(x)).intValue());
+            return true;
+        }
+        else
+        if(command.indexOf("getnodeinfo ")==0){
+            // getnodeinfo <return node id>       
+            masterNode=command.substring("getnodeinfo ".length());
+            String myaddress=this.communicationNode.getMyAddress();
+			int slashPlace=myaddress.indexOf("/");
+			String theAddress="";
+			if(slashPlace>=1){
+    			StringTokenizer st=new StringTokenizer(myaddress,"/");
+	    		String dmy=st.nextToken();
+		    	theAddress=st.nextToken();
+			}
+			else{
+				theAddress=myaddress;
+			}
+            this.sendEvent("node "+masterNode, 
+             masterCommand, "nodeinfo "+this.communicationNode.serialNo+" "+theAddress);
+            messages.append("return nodeinfo "+this.communicationNode.serialNo+" "+theAddress+ " to the node "+masterNode+"\n");
+            return true;
+        }
+        else
+        if(command.indexOf("returninfo ")==0){
+            // returninfo <return node id>       
+            String theNode=command.substring("returninfo ".length());
+            String myaddress=this.communicationNode.getMyAddress();
+            int slashPlace=myaddress.indexOf("/");
+			String theAddress="";
+			if(slashPlace>=1){
+    			StringTokenizer st=new StringTokenizer(myaddress,"/");
+	    		String dmy=st.nextToken();
+		    	theAddress=st.nextToken();
+			}
+			else{
+				theAddress=myaddress;
+			}
+
+            this.sendEvent("node "+theNode, 
+             commandName, "nodeinfo "+this.communicationNode.serialNo+" "+theAddress);
+            messages.append("return nodeinfo "+this.communicationNode.serialNo+" "+theAddress+ " to the node "+theNode+"\n");
+            return true;
+        }
+        else
+        if(command.indexOf("nodeinfo ")==0){
+            BufferedReader dinstream=null;
+            String x=command.substring("nodeinfo ".length());
+            // nodeinfo <serialNo> <address>
+            StringTokenizer st=new StringTokenizer(x," ");
+            String serialNo=st.nextToken();
+            String address=st.nextToken();
+            int id;
+            int times;
+            try{
+               id=(new Integer(serialNo)).intValue();
+             }
+            catch(Exception e){
+                messages.append("command format error\n");
+                return false;
+            }
+            this.connectServer(address);
+            return true;
+        }
+        else
+        if(command.indexOf("send ")==0){
+            String x=command.substring("send ".length());
+            // send <data-size>            
+            return true;
+        }
+        else
+        if(command.indexOf("receive")==0){
+            BufferedReader dinstream=null;
+            String x=command.substring("receive".length());
+            // receive            
+            return true;
+        }
+        return false; 
+    }
+
+    public Vector texts;
+
+    public Vector buttons;
+
+    public void appendMessage(String s)
+    {
+        // This method is derived from interface MessageGui
+        // to do: code goes here
+    }
+
+    public String nodeControl(String s)
+    {
+        // This method is derived from interface MessageGui
+        // to do: code goes here
+        return null;
+    }
+
+    public void comment()
+    {
+        /*
+        Network Tester , Worker
+        
+        client:
+          receive the script from the network tester, master.
+          receive the start signal from the master.
+          send data to a server in this group,
+          receive data from the server.
+        server:
+          receive connection.
+          return data
+          
+          
+        meta-command:
+          node <node-id(serialNo)> networktester <command>
+          
+        command:
+          enter ... meta
+          clear ... meta
+          quit  ... meta
+          set <command> ... meta
+          connect <server-address>
+          send <datasize>
+          receive
+          load <file-name>
+        
+        */
+    }
+
+    public void clickButton(int i)
+    {
+        // This method is derived from interface SelectButtonsFrame
+        // to do: code goes here
+        ControlledButton b=(ControlledButton)(buttons.elementAt(i));
+        b.click();
+        this.mouseClickedAtButton(i);
+    }
+
+    public void clickMouseOnTheText(int i, int p, int x, int y)
+    {
+        // This method is derived from interface FrameWithControlledTextAreas
+        // to do: code goes here
+    }
+
+    public void dispose()
+    {
+        // This method is derived from interface Spawnable
+        // to do: code goes here
+        super.dispose();
+    }
+
+    public void dragMouseOnTheText(int id, int position, int x, int y)
+    {
+        // This method is derived from interface FrameWithControlledTextAreas
+        // to do: code goes here
+    }
+
+    public void exitThis()
+    {
+        // This method is derived from interface Spawnable
+        // to do: code goes here
+           this.setVisible(false);
+           if(client!=null) {  client.stop(); client.close(); client=null; }
+    }
+
+    public void focusButton(int i)
+    {
+        // This method is derived from interface SelectButtonsFrame
+        // to do: code goes here
+        SelectedButton b=(SelectedButton)(this.buttons.elementAt(i));
+        b.focus();
+    }
+
+    public File getDefaultPath()
+    {
+        // This method is derived from interface DialogListener
+        // to do: code goes here
+        return null;
+    }
+
+    public String getDialogName()
+    {
+        // This method is derived from interface EditDialog
+        // to do: code goes here
+        return null;
+    }
+
+    public Vector getDialogs()
+    {
+        // This method is derived from interface DialogListener
+        // to do: code goes here
+        return null;
+    }
+
+    public String getSubName()
+    {
+        // This method is derived from interface EditDialog
+        // to do: code goes here
+        return null;
+    }
+
+    public String getText()
+    {
+        // This method is derived from interface EditDialog
+        // to do: code goes here
+        return null;
+    }
+
+    public void keyIsTypedAtATextArea(int i, int p, int key)
+    {
+        // This method is derived from interface FrameWithControlledTextAreas
+        // to do: code goes here
+    }
+
+	public void keyIsPressedAtATextArea(int i, int p, int key)
+	{
+		// This method is derived from interface FrameWithControlledTextAreas
+		// to do: code goes here
+	}
+
+    public void mouseClickedAtButton(int i)
+    {
+        // This method is derived from interface SelectButtonsFrame
+        // to do: code goes here
+        if(i==0){
+        //	 buttons.addElement( this.enterButton);
+    		String command=commandField.getText();
+	    	if(command.equals("")) return;
+	    	int startTime=communicationNode.eventRecorder.timer.getTime();
+	    	String theMessage=""+startTime + "," + command;
+	        this.messages.append(theMessage+"\n");
+            this.messages.setCaretPosition(
+                this.messages.getText().length());
+
+            this.communicationNode.eventRecorder.recordMessage(theMessage);
+		    if(parse(command)){
+	    	}
+		    else{
+		        this.messages.append("failed\n");
+                this.messages.setCaretPosition(
+                    this.messages.getText().length());
+	     	}
+	     	clickButton(1);
+        }
+        else
+        if(i==1){
+	    //   buttons.addElement( this.clearButton);
+	         this.commandField.setText("");
+	    }
+	    else
+	    if(i==2){
+	    //   buttons.addElement( this.quitButton);
+	    //    close();
+        	 this.parse("quit");
+	    }
+	    else
+	    if(i==3){
+	    // messageClearButton
+	         this.messages.setText("");
+	         messages.repaint();
+	    }
+    }
+
+    public void mouseClickedAtTextArea(int i, int p, int x, int y)
+    {
+        // This method is derived from interface FrameWithControlledTextAreas
+        // to do: code goes here
+    }
+
+    public void mouseDraggedAtTextArea(int id, int position, int x, int y)
+    {
+        // This method is derived from interface FrameWithControlledTextAreas
+        // to do: code goes here
+    }
+
+    public void mouseEnteredAtButton(int i)
+    {
+        // This method is derived from interface SelectButtonsFrame
+        // to do: code goes here
+    }
+
+    public void mouseExitedAtButton(int i)
+    {
+        // This method is derived from interface SelectButtonsFrame
+        // to do: code goes here
+    }
+
+    public void mouseReleasedAtTextArea(int id, int position, int x, int y)
+    {
+        // This method is derived from interface FrameWithControlledTextAreas
+        // to do: code goes here
+    }
+
+    public void receiveEvent(String s)
+    {
+        // This method is derived from interface Spawnable
+        // to do: code goes here
+        this.parse(s);
+    }
+
+    public void releaseMouseOnTheText(int id, int position, int x, int y)
+    {
+        // This method is derived from interface FrameWithControlledTextAreas
+        // to do: code goes here
+    }
+
+    public void sendAll()
+    {
+        // This method is derived from interface Spawnable
+        // to do: code goes here
+    }
+
+    public void sendFileDialogMessage(String m)
+    {
+        // This method is derived from interface DialogListener
+        // to do: code goes here
+    }
+
+    public void setDialogName(String name)
+    {
+        // This method is derived from interface EditDialog
+        // to do: code goes here
+    }
+
+    public void setListener(DialogListener l)
+    {
+        // This method is derived from interface EditDialog
+        // to do: code goes here
+    }
+
+    public void setSubName(String n)
+    {
+        // This method is derived from interface EditDialog
+        // to do: code goes here
+    }
+
+    public ControlledFrame spawnMain(CommunicationNode gui, String args, int pID, String controlMode)
+    {
+        // This method is derived from interface Spawnable
+        // to do: code goes here
+//           NetworkTesterWorkerFrame frame=new NetworkTesterWorkerFrame("NetworkTester Worker");
+           NetworkTesterWorkerFrame frame=this;
+           this.setTitle("NetwrokTester Worker");
+           frame.communicationNode=gui;
+           frame.pID=pID;
+//           frame.encodingCode=encodingCode;
+           frame.ebuff=gui.commandTranceiver.ebuff;
+           frame.setVisible(true);
+           frame.init2();
+//           frame.show();
+           return frame;
+    }
+
+    public void toFront()
+    {
+        // This method is derived from interface Spawnable
+        // to do: code goes here
+    }
+
+    public void typeKey(int i, int p, int key)
+    {
+        // This method is derived from interface FrameWithControlledTextAreas
+        // to do: code goes here
+    }
+
+    public void unfocusButton(int i)
+    {
+        // This method is derived from interface SelectButtonsFrame
+        // to do: code goes here
+        SelectedButton b=(SelectedButton)(this.buttons.elementAt(i));
+        b.unFocus();
+    }
+
+    public void whenActionButtonPressed(EditDialog d)
+    {
+        // This method is derived from interface DialogListener
+        // to do: code goes here
+    }
+
+    public void whenCancelButtonPressed(EditDialog d)
+    {
+        // This method is derived from interface DialogListener
+        // to do: code goes here
+    }
+ 
+	public NetworkTesterWorkerFrame()
+	{
+    	panes=new Vector();
+	    panes.addElement(this.messagesPane);
+	    int numberOfPanes=panes.size();
+	    for(int i=0;i<numberOfPanes;i++){
+	        ControlledScrollPane p=(ControlledScrollPane)(panes.elementAt(i));
+	        p.setFrame(this);
+	        p.setID(i);
+	    }
+
+		// This code is automatically generated by Visual Cafe when you add
+		// components to the visual environment. It instantiates and initializes
+		// the components. To modify the code, only use code syntax that matches
+		// what Visual Cafe can generate, or Visual Cafe may be unable to back
+		// parse your Java file into its visual environment.
+		//{{INIT_CONTROLS
+		getContentPane().setLayout(null);
+		setSize(499,410);
+		setVisible(false);
+		messagesPane.setOpaque(true);
+		getContentPane().add(messagesPane);
+		messagesPane.setBounds(24,60,468,288);
+		messagesPane.getViewport().add(messages);
+		messages.setBackground(java.awt.Color.white);
+		messages.setForeground(java.awt.Color.black);
+		messages.setFont(new Font("SansSerif", Font.PLAIN, 12));
+		messages.setBounds(0,0,464,284);
+		JLabel1.setText("Distributed System Recorder/Network Tester, worker");
+		getContentPane().add(JLabel1);
+		JLabel1.setBounds(24,12,384,24);
+		getContentPane().add(commandField);
+		commandField.setBackground(java.awt.Color.white);
+		commandField.setForeground(java.awt.Color.black);
+		commandField.setFont(new Font("SansSerif", Font.PLAIN, 12));
+		commandField.setBounds(108,348,228,36);
+		JLabel2.setText("command:");
+		getContentPane().add(JLabel2);
+		JLabel2.setBounds(24,348,84,36);
+		enterButton.setText("enter");
+		enterButton.setActionCommand("enter");
+		getContentPane().add(enterButton);
+		enterButton.setBackground(new java.awt.Color(204,204,204));
+		enterButton.setForeground(java.awt.Color.black);
+		enterButton.setFont(new Font("Dialog", Font.BOLD, 12));
+		enterButton.setBounds(336,348,84,36);
+		quitButton.setActionCommand("quit");
+		quitButton.setToolTipText("quit, exit");
+		getContentPane().add(quitButton);
+		quitButton.setBackground(new java.awt.Color(204,204,204));
+		quitButton.setForeground(java.awt.Color.black);
+		quitButton.setFont(new Font("Dialog", Font.BOLD, 12));
+		quitButton.setBounds(276,36,108,24);
+		clearButton.setActionCommand("enter");
+		clearButton.setToolTipText("clear command area");
+		getContentPane().add(clearButton);
+		clearButton.setBackground(new java.awt.Color(204,204,204));
+		clearButton.setForeground(java.awt.Color.black);
+		clearButton.setFont(new Font("Dialog", Font.BOLD, 12));
+		clearButton.setBounds(420,348,72,36);
+		messageClearButton.setActionCommand("clear");
+		messageClearButton.setToolTipText("clear big area");
+		getContentPane().add(messageClearButton);
+		messageClearButton.setBackground(new java.awt.Color(204,204,204));
+		messageClearButton.setForeground(java.awt.Color.black);
+		messageClearButton.setFont(new Font("Dialog", Font.BOLD, 12));
+		messageClearButton.setBounds(384,36,108,24);
+		ImageIcon clearIcon=new ImageIcon("images/clear-icon.GIF");
+		ImageIcon exitIcon=new ImageIcon("images/exit-icon.GIF");
+		messageClearButton.setIcon(clearIcon);
+		quitButton.setIcon(exitIcon);
+		clearButton.setIcon(clearIcon);
+		//}}
+
+		//{{INIT_MENUS
+		//}}
+	
+		//{{REGISTER_LISTENERS
+		SymAction lSymAction = new SymAction();
+		enterButton.addActionListener(lSymAction);
+		clearButton.addActionListener(lSymAction);
+		quitButton.addActionListener(lSymAction);
+		SymWindow aSymWindow = new SymWindow();
+		this.addWindowListener(aSymWindow);
+		messageClearButton.addActionListener(lSymAction);
+		//}}
+		
+    	buttons=new Vector();
+	    buttons.addElement( this.enterButton);
+	    buttons.addElement( this.clearButton);
+	    buttons.addElement( this.quitButton);
+	    buttons.addElement( this.messageClearButton);
+	
+    	int numberOfButtons=buttons.size();
+	
+	    for(int i=0;i<numberOfButtons;i++){
+	        SelectedButton b=(SelectedButton)(buttons.elementAt(i));
+	        b.setFrame(this);
+	        b.setID(i);
+	    }
+	
+    	texts=new Vector();
+	    texts.addElement(this.messages);
+	    texts.addElement(this.commandField);
+	
+    	int numberOfTextAreas=texts.size();
+	    for(int i=0;i<numberOfTextAreas;i++){
+	        ControlledTextArea t=(ControlledTextArea)(texts.elementAt(i));
+	        t.setFrame(this);
+	        t.setID(i);
+	    }
+	    super.registerListeners();
+//	    client.start();
+		//
+//		this.start();
+	}
+
+	public NetworkTesterWorkerFrame(String sTitle)
+	{
+		this();
+		setTitle(sTitle);
+	}
+
+	static public void main(String args[])
+	{
+		(new NetworkTesterWorkerFrame()).setVisible(true);
+	}
+
+	public void addNotify()
+	{
+		// Record the size of the window prior to calling parents addNotify.
+		Dimension size = getSize();
+
+		super.addNotify();
+
+		if (frameSizeAdjusted)
+			return;
+		frameSizeAdjusted = true;
+
+		// Adjust size of frame according to the insets and menu bar
+		Insets insets = getInsets();
+		javax.swing.JMenuBar menuBar = getRootPane().getJMenuBar();
+		int menuBarHeight = 0;
+		if (menuBar != null)
+			menuBarHeight = menuBar.getPreferredSize().height;
+		setSize(insets.left + insets.right + size.width, insets.top + insets.bottom + size.height + menuBarHeight);
+	}
+
+	// Used by addNotify
+	boolean frameSizeAdjusted = false;
+
+	//{{DECLARE_CONTROLS
+	public ControlledScrollPane messagesPane = new ControlledScrollPane();
+	public ControlledTextArea messages = new ControlledTextArea();
+	protected javax.swing.JLabel JLabel1 = new javax.swing.JLabel();
+	public ControlledTextArea commandField = new ControlledTextArea();
+	javax.swing.JLabel JLabel2 = new javax.swing.JLabel();
+	public ControlledButton enterButton = new ControlledButton();
+	public ControlledButton quitButton = new ControlledButton();
+	public ControlledButton clearButton = new ControlledButton();
+	public ControlledButton messageClearButton = new ControlledButton();
+	//}}
+
+	//{{DECLARE_MENUS
+	//}}
+
+
+	class SymAction implements java.awt.event.ActionListener
+	{
+		public void actionPerformed(java.awt.event.ActionEvent event)
+		{
+			Object object = event.getSource();
+			if (object == enterButton)
+				enterButton_actionPerformed(event);
+			else if (object == clearButton)
+				clearButton_actionPerformed(event);
+			else if (object == quitButton)
+				quitButton_actionPerformed(event);
+			else if (object == messageClearButton)
+				messageClearButton_actionPerformed(event);
+		}
+	}
+
+	void enterButton_actionPerformed(java.awt.event.ActionEvent event)
+	{
+		// to do: code goes here.
+			 
+		enterButton_actionPerformed_Interaction1(event);
+	}
+
+	void enterButton_actionPerformed_Interaction1(java.awt.event.ActionEvent event)
+	{
+		try {
+			// commandField Show the ControlledTextArea
+//			commandField.setVisible(true);
+		} catch (java.lang.Exception e) {
+		}
+	}
+
+	void clearButton_actionPerformed(java.awt.event.ActionEvent event)
+	{
+		// to do: code goes here.
+			 
+		clearButton_actionPerformed_Interaction1(event);
+	}
+
+	void clearButton_actionPerformed_Interaction1(java.awt.event.ActionEvent event)
+	{
+		try {
+			// commandField Set the ControlledTextArea's text
+//			commandField.setText("");
+		} catch (java.lang.Exception e) {
+		}
+	}
+
+	void quitButton_actionPerformed(java.awt.event.ActionEvent event)
+	{
+		// to do: code goes here.
+			 
+		quitButton_actionPerformed_Interaction1(event);
+	}
+
+	void quitButton_actionPerformed_Interaction1(java.awt.event.ActionEvent event)
+	{
+		try {
+			// NetworkTesterWorkerFrame Hide the NetworkTesterWorkerFrame
+//			this.setVisible(false);
+		} catch (java.lang.Exception e) {
+		}
+	}
+
+	class SymWindow extends java.awt.event.WindowAdapter
+	{
+		public void windowClosing(java.awt.event.WindowEvent event)
+		{
+			Object object = event.getSource();
+			if (object == NetworkTesterWorkerFrame.this)
+				NetworkTesterWorkerFrame_windowClosing(event);
+		}
+	}
+
+	void NetworkTesterWorkerFrame_windowClosing(java.awt.event.WindowEvent event)
+	{
+		// to do: code goes here.
+			 
+		NetworkTesterWorkerFrame_windowClosing_Interaction1(event);
+	}
+
+	void NetworkTesterWorkerFrame_windowClosing_Interaction1(java.awt.event.WindowEvent event)
+	{
+		try {
+			// NetworkTesterWorkerFrame Hide the NetworkTesterWorkerFrame
+//			this.setVisible(false);
+		} catch (java.lang.Exception e) {
+		}
+//		close();
+		if(this.isShowing()){
+//		    close();
+            this.exitThis();
+    	}
+	}
+
+	void messageClearButton_actionPerformed(java.awt.event.ActionEvent event)
+	{
+		// to do: code goes here.
+			 
+		messageClearButton_actionPerformed_Interaction1(event);
+	}
+
+	void messageClearButton_actionPerformed_Interaction1(java.awt.event.ActionEvent event)
+	{
+		try {
+//			messages.setText("");
+		} catch (java.lang.Exception e) {
+		}
+	}
+	/* (非 Javadoc)
+	 * @see controlledparts.FrameWithControlledTextAreas#keyIsReleasedAtTextArea(int, int)
+	 */
+	public void keyIsReleasedAtTextArea(int id, int p, int code) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+	/* (非 Javadoc)
+	 * @see controlledparts.FrameWithControlledTextAreas#releaseKey(int, int)
+	 */
+	public void releaseKey(int i, int p, int code) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+	public void pressKey(int i, int p, int code) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+}

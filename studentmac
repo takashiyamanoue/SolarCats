@@ -1,0 +1,5 @@
+#!/bin/sh
+# export PATH=${PATH}:/usr/java/jdk1.3.1_01/bin
+CURDIR=`dirname $0`
+cd $CURDIR
+java -cp classes:lib:${JMFHOME}/lib nodesystem.StudentsNode $1 $2

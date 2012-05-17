@@ -1,0 +1,25 @@
+figures(
+clickableboxurl(
+attrib(
+color(-16777216)
+depth(0)
+width(1)
+)
+17,469,66,24,bp(0),"t-diagram-4.fig")
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(1)
+font("Dialog",1,16)
+)
+18,470,"previous")
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,18)
+)
+94,116,"問題：　Javaプログラムのコンパイル、実行を図式で示せ。")
+)

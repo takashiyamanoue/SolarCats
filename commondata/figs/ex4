@@ -1,0 +1,72 @@
+figures(
+line(
+attrib(
+color(-16777216)
+depth(0)
+width(1)
+)
+195,354,163,-194)
+line(
+attrib(
+color(-16777216)
+depth(0)
+width(1)
+)
+140,133,179,114)
+image(
+attrib(
+color(-16777216)
+depth(0)
+width(1)
+)
+name("image0")
+140,88,0,0
+url("file:///C:\\Inetpub\\wwwroot\\workshop\\7com\\commondataimages\\yamanoue-photo.gif")
+)
+image(
+attrib(
+color(-16777216)
+depth(0)
+width(1)
+)
+name("image1")
+140,88,0,0
+url("file:///C:\\Inetpub\\wwwroot\\workshop\\7com\\commondataimages\\yamanoue-photo.gif")
+)
+curve(
+attrib(
+color(-295680)
+depth(0)
+width(5)
+)
+286,98
+ 6,62
+ -15,113
+ 40,192
+ 144,168
+ 135,71
+ 106,57
+ 73,79
+ 73,137
+ 106,136
+ 109,102
+)
+curve(
+attrib(
+color(-16711681)
+depth(0)
+width(5)
+)
+228,157
+ 12,117
+ -16,146
+ -70,171
+ -82,229
+ -129,219
+ -142,133
+ -124,80
+ -64,70
+ -38,11
+ -45,-28
+)
+)

@@ -1,0 +1,10 @@
+®” x, y, i
+
+gWindowOpen(500, 500)
+1 = 1 ‚ÌŠÔC
+  | i © i + 1
+  | gColor(random(255), random(255), random(255))
+  | x © random(99) + 1
+  | y © random(99) + 1
+  | gFillOval(random(500)-x/2, random(500)-y/2, x, y)
+‚ğŒJ‚è•Ô‚·

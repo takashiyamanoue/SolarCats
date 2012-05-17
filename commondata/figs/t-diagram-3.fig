@@ -1,0 +1,341 @@
+figures(
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,16)
+)
+597,-15,"")
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,16)
+)
+597,467,"next")
+clickableboxurl(
+attrib(
+color(-16777216)
+depth(0)
+width(1)
+)
+593,469,46,20,bp(0),"t-diagram-4.fig")
+fillrect(
+attrib(
+color(-16722475)
+depth(10)
+width(3)
+)
+144,74,183,46)
+rectangle(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+)
+144,74,182,47)
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,16)
+)
+218,86,"→")
+fillrect(
+attrib(
+color(-16722475)
+depth(10)
+width(3)
+)
+196,118,63,96)
+rectangle(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+)
+197,120,63,94)
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,16)
+)
+176,84,"F")
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,16)
+)
+270,84,"M")
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,16)
+)
+218,160,"M")
+filloval(
+attrib(
+color(-16711936)
+depth(13)
+width(1)
+)
+90,16,61,59)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+)
+103,70
+ -5,-6
+ -10,-16
+ -11,-33
+ -4,-45
+ 10,-52
+ 28,-52
+ 43,-44
+ 48,-36
+ 50,-20
+ 47,-9
+ 44,-4
+ 40,0
+)
+fillrect(
+attrib(
+color(-16711936)
+depth(11)
+width(1)
+)
+101,69,39,49)
+lines(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+)
+103,70
+ -1,51
+ 39,50
+ 39,0
+)
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,18)
+)
+119,34,"f")
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,16)
+)
+116,85,"F")
+filloval(
+attrib(
+color(-16711936)
+depth(13)
+width(3)
+)
+317,16,61,59)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+)
+330,70
+ -5,-6
+ -10,-16
+ -11,-33
+ -4,-45
+ 10,-52
+ 28,-52
+ 43,-44
+ 48,-36
+ 50,-20
+ 47,-9
+ 44,-4
+ 40,0
+)
+fillrect(
+attrib(
+color(-16711936)
+depth(11)
+width(3)
+)
+328,69,39,49)
+lines(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+)
+330,70
+ -1,51
+ 39,50
+ 39,0
+)
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,18)
+)
+346,34,"f")
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,16)
+)
+342,86,"M")
+filloval(
+attrib(
+color(-16711936)
+depth(13)
+width(3)
+)
+410,244,61,59)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+)
+423,298
+ -5,-6
+ -10,-16
+ -11,-33
+ -4,-45
+ 10,-52
+ 28,-52
+ 43,-44
+ 48,-36
+ 50,-20
+ 47,-9
+ 44,-4
+ 40,0
+)
+fillrect(
+attrib(
+color(-16711936)
+depth(11)
+width(3)
+)
+421,297,39,49)
+lines(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+)
+423,298
+ -1,51
+ 39,50
+ 39,0
+)
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,18)
+)
+439,262,"f")
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,16)
+)
+435,314,"M")
+fillrect(
+attrib(
+color(-16711936)
+depth(10)
+width(3)
+)
+355,241,53,57)
+fillrect(
+attrib(
+color(-16711936)
+depth(13)
+width(3)
+)
+478,244,52,53)
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,12)
+)
+360,247,"入力\nデータ")
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,12)
+)
+484,250,"出力\nデータ")
+rectangle(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+)
+354,240,53,58)
+rectangle(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+)
+478,243,50,54)
+polygon(
+attrib(
+color(-16777216)
+depth(0)
+width(1)
+)
+380,122
+ 48,105
+ 62,96
+ 52,119
+ 31,115
+ 41,109
+ -5,4
+)
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,16)
+)
+31,468,"previous")
+clickableboxurl(
+attrib(
+color(-16777216)
+depth(0)
+width(1)
+)
+27,471,74,17,bp(0),"t-diagram-2.fig")
+)

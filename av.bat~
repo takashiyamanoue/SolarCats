@@ -1,0 +1,4 @@
+set CLASSPATH=c:\"program files"\jmf2.1.1e\lib\jmf.jar;c:\"program files"\jmf2.1.1e\lib\sound.jar;%CLASSPATH%;classes;lib
+rem set classpath=%classpath%;classes;lib
+java application.av.AVFrame
+exit

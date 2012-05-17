@@ -1,0 +1,8 @@
+package controlledparts;
+
+import com.sun.java.swing.JOptionPane;
+
+public class ControlledOptionPane extends JOptionPane
+{
+
+}

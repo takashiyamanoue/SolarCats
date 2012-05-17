@@ -1,0 +1,11 @@
+10/22/99 - version 1.1
+  - updated RCXPort:
+        made processRead() private
+	deprecated showTable() and parseString()
+  - updated RCXOpcode:
+        added showTable() and parseString() and removed window listener implementation
+  - updated RCXLoader application to reflect above changes and
+        removed RCXMacPort dependency for Mac platform (requires JavaComm now)
+
+10/20/98 version 1.0
+  - initial release

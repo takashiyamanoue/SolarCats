@@ -1,0 +1,207 @@
+figures(
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,18)
+)
+106,192,"言語DLで書かれ、機能 f を持ったプログラム\n")
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,16)
+)
+619,467,"next")
+clickableboxurl(
+attrib(
+color(-16777216)
+depth(0)
+width(1)
+)
+615,469,46,20,bp(0),"t-diagram-2.fig")
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+)
+254,313
+ -7,-9
+ -15,-25
+ -15,-50
+ -5,-66
+ 16,-77
+ 43,-78
+ 64,-65
+ 72,-52
+ 76,-30
+ 71,-14
+ 65,-6
+ 59,0
+)
+filloval(
+attrib(
+color(-16711936)
+depth(13)
+width(3)
+)
+237,233,93,89)
+fillrect(
+attrib(
+color(-16711936)
+depth(11)
+width(3)
+)
+253,312,59,75)
+lines(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+)
+254,312
+ -1,78
+ 58,77
+ 58,1
+)
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,18)
+)
+277,265,"f")
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,16)
+)
+81,404,"ある計算機の機械語がMのとき、その計算機で直接実行可能なプログラム\n")
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,18)
+)
+164,47,"入力\nデータ")
+filloval(
+attrib(
+color(-16711936)
+depth(13)
+width(1)
+)
+239,28,93,89)
+fillrect(
+attrib(
+color(-16711936)
+depth(10)
+width(3)
+)
+148,29,87,82)
+rectangle(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+)
+148,29,87,82)
+fillrect(
+attrib(
+color(-16711936)
+depth(10)
+width(3)
+)
+338,27,89,83)
+rectangle(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+)
+338,27,89,83)
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,18)
+)
+351,45,"出力\nデータ")
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+)
+256,108
+ -7,-9
+ -15,-25
+ -15,-50
+ -5,-66
+ 16,-77
+ 43,-78
+ 64,-65
+ 72,-52
+ 76,-30
+ 71,-14
+ 65,-6
+ 59,0
+)
+fillrect(
+attrib(
+color(-16711936)
+depth(11)
+width(1)
+)
+255,107,59,75)
+lines(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+)
+256,107
+ -1,78
+ 58,77
+ 58,1
+)
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,18)
+)
+279,60,"f")
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,18)
+)
+274,141,"DL")
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,16)
+)
+484,-17,"")
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(3)
+font("Dialog",1,16)
+)
+275,350,"M")
+)

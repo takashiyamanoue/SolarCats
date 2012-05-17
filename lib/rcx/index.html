@@ -1,0 +1,80 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (Win98; I) [Netscape]">
+   <meta name="Author" content="Melinda">
+   <title>RCX and Java</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+
+<center><b><font face="Book Antiqua"><font size=+2>RCX and Java&nbsp;
+<hr size=5></font>A&nbsp; (<font size=-1>100% JavaTM)</font> programming
+interface to the Lego Mindstorms RCX</font></b>
+<br>
+<hr size=5>For general information on Lego Mindstorms RCX and the related
+mailing list see <a href="http://www.crynwr.com/lego-robotics/">http://www.crynwr.com/lego-robotics</a></center>
+
+<p><b><i>RCX Java API: </i></b>API used to communicate with the RCX, used
+by RCXLoader.
+<p><font face="Arial Narrow"><b><i>RCXLoader:</i></b> An example&nbsp;
+Java application used to communicate with the Lego(tm) Mindstorms RCX brick,
+using the RCX Java API. Used as a tool to test the RCX protocol based on
+Kekoa Proudfoot's opcodes work at his <a href="http://graphics.stanford.edu/~kekoa/rcx/">RCX
+Internals site.</a></font>
+<p><b><font face="Book Antiqua">Last Updated: </font></b><font face="Arial Narrow">(10/22/99)
+- minor <a href="changes.txt">changes</a>, updated documentation, licensing
+to LGPL!&nbsp; </font><b><font face="Book Antiqua">Orignally released:</font></b><font face="Arial Narrow">(10/20/98)</font>
+<br>
+<hr size=2>
+<br><b><font face="Book Antiqua">Prerequisites:</font></b>
+<p><font face="Arial Narrow">A Java 1.1+ runtime environment as well as
+the Java Communications Extension: <a href="http://java.sun.com/products/javacomm/">http://java.sun.com/products/javacomm</a>
+(~270K)</font>
+<p><font face="Arial Narrow">Platforms <b>currently</b> supported are:
+Windows, Solaris Sparc, Solaris x86, Linux and Macintosh.</font>
+<p><font face="Arial Narrow">The MRJ (Macintosh Runtime for Java) is required
+for the Macintosh platform (serial port access through modem port). You
+can obtain the latest MRJ here: <a href="http://devworld.apple.com/java/text/prerelease.html">http://devworld.apple.com/java/text/prerelease.html</a>
+as well as a 3rd party Java Comm implementation such as: <a href="http://www.vmeng.com/beard/javax.comm.MRJ/">http://www.vmeng.com/beard/javax.comm.MRJ/</a>
+Linux users require a Java Runtime as well as a 3rd party Java Comm implementation
+such as <a href="http://www.interstice.com/kevinh/linuxcomm.html">http://www.interstice.com/kevinh/linuxcomm.html</a></font>
+<p>
+<hr size=2>
+<br><b><font face="Book Antiqua">Download RCXLoader:</font></b>
+<p><font face="Book Antiqua"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<i><a href="http://www.escape.com/~dario/java/rcx/rcx.zip">rcx.zip</a></i></b>
+(90K)<b> - </b>includes library and source files including the RCXLoader
+example as well as documentation.</font>
+<p><font face="Book Antiqua"><b>To run: </b>add <b>comm.jar</b> and <b>rcx.zip</b>
+to your classpath and specify rcx.RCXLoader as the main class to run.</font>
+<p><b><font face="Arial Narrow">Examples:</font></b>
+<p><b><font face="Arial Narrow">&nbsp;&nbsp;&nbsp; jre -cp comm.jar;rcx.zip
+rcx.RCXLoader</font></b>
+<br><font face="Arial Narrow"><b>&nbsp;&nbsp;&nbsp; java -classpath </b><i>[java
+lib path]</i><b>classes.zip;comm.jar;rcx.zip RCXLoader</b></font>
+<p><font face="Arial Narrow">Note: Use jrew and javaw to run w/o a console.
+Omit comm.jar on Macintosh platforms (Java Comm API with Macintosh not
+available yet)</font>
+<p><font face="Arial Narrow"><b><i>To use the Java Communication API:</i></b>
+The only files you absolutely need are: <i>javax.comm.properties</i> and
+c<i>omm.jar</i> (in the same folder).&nbsp; The platform specific files
+for the Java Communcations API are:&nbsp; for Windows: <i>win32comm.dll</i>
+(placed somewhere in your PATH)&nbsp; and for Solaris:<i> libSolarisSerialParallel.so</i>
+(placed somewhere in your library path) For the other platforms consult
+the Java Communications documentation.</font>
+<p>
+<hr size=2>
+<br><b><font face="Book Antiqua">Licensing: The RCX library is now LGPL
+(Lesser General Public License) See <a href="http://www.gnu.org/copyleft/lesser.html">http://www.gnu.org/copyleft/lesser.html</a></font></b>
+<br>Note: Lesser GPL (formerly known as Library GPL) allows free commercial
+use of a library so long as it follows the terms of the license.
+<p>
+<hr size=2>
+<center>
+<p><i><font size=-1>Copyright &copy; 1998,1999 <a href="mailto:dario@escape.com">dario
+laverde</a></font></i></center>
+
+<p><br>
+</body>
+</html>

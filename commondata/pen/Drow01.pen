@@ -1,0 +1,17 @@
+®” x, i
+
+i © input()
+
+gopen(i, i)
+gdoval(0, 0, 25, 25)
+
+gfoval(25, 25, 25, 25)
+gline(0, 0, i, i)
+
+gline(0, i, i, i)
+gline(i, 0, i, i)
+
+gcolor(255,0,0)
+x ‚ğ 0 ‚©‚ç i ‚Ü‚Å 1 ‚¸‚Â‘‚â‚µ‚È‚ª‚çC
+  | gpoint( x, i - x)
+‚ğŒJ‚è•Ô‚·

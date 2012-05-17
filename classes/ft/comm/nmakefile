@@ -1,0 +1,63 @@
+## compile using jdk 1.2.2 and visual c++ 4.2
+## installs Solaris/x86 comm.jar; Win references nSetOwner
+
+CL	= cl
+CFLAGS	= /W3 /DSTRICT /DDEBUG
+JAVA	= java
+JAVAC	= javac
+JAVAH	= javah
+JAR	= jar
+
+classes	= Driver.class SerialPort.class ParallelPort.class \
+	  SerialInputStream.class SerialOutputStream.class \
+	  ParallelInputStream.class ParallelOutputStream.class
+
+all:		serial.exe parallel.exe ft.comm.dll ft.comm.jar
+clean:
+	-del *.class
+	-del *.dll
+	-del *.exe
+	-del *.exp
+	-del *.jar
+	-del *.lib
+	-del *.obj
+	-del ft.comm.h
+install:	all
+	copy ft.comm.dll $(JDK_HOME)\jre\bin\ft.comm.dll
+	copy comm.jar.x86 $(JDK_HOME)\jre\lib\ext\comm.jar
+	copy ft.comm.jar $(JDK_HOME)\jre\lib\ext
+	echo Driver=ft.comm.Driver >$(JDK_HOME)\jre\lib\javax.comm.properties
+	
+test::	serial.exe	; serial -d -c 1000
+
+parallel.exe:	..\src\parallel.c ..\src\parallel.h ..\src\main.h
+	$(CL) $(CFLAGS) -DTEST -DDEBUG -I..\src ..\src\parallel.c \
+		-Feparallel.exe
+	-del parallel.obj
+	
+serial.exe:	..\src\serial.c ..\src\main.h \
+		..\src\fake.c ..\src\fossil.h ..\src\types.h
+	$(CL) $(CFLAGS) -DTEST -DDEBUG -I..\src ..\src\serial.c \
+		..\src\fake.c -Feserial.exe
+	-del serial.obj
+	
+ft.comm.dll:	ft.comm.c ft.comm.h ..\src\parallel.c ..\src\parallel.h
+	$(CL) $(CFLAGS) -I$(JDK_HOME)\include -I$(JDK_HOME)\include\win32 \
+		-I..\src -LD ft.comm.c ..\src\parallel.c -Feft.comm.dll
+
+ft.comm.h:	SerialInputStream.class SerialOutputStream.class \
+		ParallelInputStream.class ParallelOutputStream.class
+	set CLASSPATH=..\..
+	$(JAVAH) -o $@ ft.comm.SerialInputStream ft.comm.SerialOutputStream \
+		ft.comm.ParallelInputStream ft.comm.ParallelOutputStream
+
+ft.comm.jar:	$(classes)
+	cd ..\..
+	$(JAR) cvf ft\comm\$@ ft\comm\*.class
+	cd ft\comm
+	
+.SUFFIXES:
+.SUFFIXES:	.class .java
+.java.class:
+	set CLASSPATH=..\..
+	$(JAVAC) $*.java

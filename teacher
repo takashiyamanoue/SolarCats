@@ -1,0 +1,5 @@
+#!/bin/sh
+# export PATH=${PATH}:/usr/java/jdk1.3.1_01/bin
+export JMFHOME=/usr/local/JMF-2.1.1e/
+java -cp classes:lib nodesystem.groupmanager.GroupManager &
+java -cp classes:lib:${JMFHOME}/lib nodesystem.CommunicationNode $1 $2 

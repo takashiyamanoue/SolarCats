@@ -1,0 +1,552 @@
+package application.rcxcontroller;
+
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Insets;
+import java.awt.Point;
+import java.io.BufferedReader;
+import java.util.StringTokenizer;
+import java.util.Vector;
+
+import nodesystem.*;
+import application.serialcontroller.SerialControlMasterFrame;
+import controlledparts.*;
+
+public class RcxControlMasterFrame extends SerialControlMasterFrame
+{
+    ControlledButton quitButton = new ControlledButton();
+
+
+    public boolean parse(String command)
+    {
+        /*
+        command:
+          enter ... meta
+          clear ... meta
+          quit  ... meta
+          set <command> ... meta""
+          connect <server-address>
+          sendreceive <datasize>
+          sendreceive-n <datasize> <times>
+          send <datasize>
+          receive
+          load <file-name>
+          testid <id>
+          returnnodeinfo <return-address>        
+        */
+        if(command.indexOf("enter")==0){
+            this.clickButton(1);
+//            String x=s.substring("chat ".length());
+            return true;
+        }
+        else
+        if(command.indexOf("clear")==0){
+            this.clickButton(1);
+            return true;
+        }
+        else
+        if(command.indexOf("quit")==0){
+            this.clickButton(2);
+            return true;
+        }
+        else
+        if(command.indexOf("set ")==0){
+            String x=command.substring("set ".length());
+            // set <command>
+            this.commandArea.setText(x);
+            return true;
+        }
+        else
+        if(command.indexOf("connect ")==0){
+            String x=command.substring("connect ".length());
+            // connect <remote-host>
+//            connectServer(x);
+            return true;
+        }
+        else
+        if(command.indexOf("nodeinfo ")==0){
+            BufferedReader dinstream=null;
+            String x=command.substring("nodeinfo ".length());
+            // nodeinfo <serialNo> <address>
+            StringTokenizer st=new StringTokenizer(x," ");
+            String serialNo=st.nextToken();
+            String address=st.nextToken();
+            int id;
+            int times;
+            try{
+               id=(new Integer(serialNo)).intValue();
+             }
+            catch(Exception e){
+                messagesArea.append("command format error\n");
+                return false;
+            }
+            this.recordOneNodeInfo(id,address);
+            return true;
+        }
+        else
+        if(command.indexOf("resultofnode ")==0){
+            String x=command.substring("resultofnode ".length());
+            // resultofnode <node-id> <theResult>
+            StringTokenizer st=new StringTokenizer(x," ");
+            String serialNo=st.nextToken();
+            String theResult=st.nextToken();
+            while(st.hasMoreTokens()){
+                theResult=theResult+" ";
+                theResult=theResult+st.nextToken();
+            }
+            int id=0;
+            try{
+               id=(new Integer(serialNo)).intValue();
+             }
+            catch(Exception e){
+                messagesArea.append("command format error\n");
+                return false;
+            }
+            this.getResultFromNodes(id,theResult);
+            return true;
+        }
+        else
+        if(command.indexOf("testid ")==0){
+            String x=command.substring("testid ".length());
+            // setTestID <testID>       
+//            setTestID((new Integer(x)).intValue());
+            return true;
+        }
+        else
+        if(command.indexOf("getnodesinfo")==0){
+            // getnodesinfo 
+            getNodesInfo();
+            return true;
+        }
+        else
+        if(command.indexOf("spawnworkers")==0){
+            // spawn workers
+            this.sendEvent("broadcast","shell", "spawn RcxControllWorkerFrame remote");
+            return true;
+        }
+        else
+        if(command.indexOf("receive")==0){
+            BufferedReader dinstream=null;
+            String x=command.substring("receive".length());
+            // receive            
+            return true;
+        }
+        else
+        if(command.indexOf("all ")==0){
+            String x=command.substring("all ".length());
+            // all <workers-command>
+//            connectServer(x);
+            this.sendEvent("broadcast",workerCommand,x);
+            return true;
+        }
+        else
+        if(command.indexOf("node ")==0){
+            String x=command.substring("node ".length());
+            StringTokenizer st=new StringTokenizer(x," ");
+            String nodeID=st.nextToken();
+            String theCommand=st.nextToken();
+            while(st.hasMoreTokens()){
+                theCommand=theCommand+" ";
+                theCommand=theCommand+st.nextToken();
+            }
+            // node <nodeID> <workers-command>
+//            connectServer(x);
+            this.sendEvent("node "+nodeID,workerCommand,theCommand);
+            return true;
+        }
+        else
+        if(command.indexOf("waittime ")==0){
+            String x=command.substring("waittime ".length());
+            // wait <millisec>
+//            connectServer(x);
+            this.waitTime((new Integer(x)).intValue());
+            return true;
+        }
+        return false;
+    }
+
+    String commandName="rcxcontrolmaster";
+    String workerCommand="rcxcontrolworker";
+    public String getCommandName(){
+    	return commandName;
+    }
+
+    public void clickButton(int i)
+    {
+        // This method is derived from interface SelectButtonsFrame
+        // to do: code goes here
+/*
+0		buttons.addElement(this.enterButton);
+1		buttons.addElement(this.clearButton);
+2		buttons.addElement(this.spawnWorkersButton);
+3		buttons.addElement(this.collectNodeInfoButton);
+4		buttons.addElement(this.closeWorkersButton);
+5		buttons.addElement(this.clearMessageButton);
+6		buttons.addElement(this.quitButton);
+	    
+	    */
+        if(i==0){
+        //	 buttons.addElement( this.enterButton);
+    		String command=commandArea.getText();
+	    	if(command.equals("")) return;
+	    	int startTime=communicationNode.eventRecorder.timer.getTime();
+	    	String theMessage=""+startTime + "," + command;
+	    	this.messagesArea.append(theMessage+"\n");
+            this.communicationNode.eventRecorder.recordMessage(theMessage);
+		    if(parse(command)){
+	    	}
+		    else{
+		        this.messagesArea.append("failed\n");
+	     	}
+	     	clickButton(1); // clear
+	     	return;
+        }
+        else
+        if(i==1){
+	    //   buttons.addElement( this.clearButton);
+	         this.commandArea.setText("");
+	         return;
+	    }
+	    else
+	    if(i==2){
+//		buttons.addElement(this.spawnworkerButton);
+	       this.commandFieldArea.setText("spawnworkers");
+	       this.clickButton(0);
+	       return;
+	    }
+	    else
+	    if(i==3){
+//		buttons.addElement(this.collectNodesInformationButton);
+	       this.getNodesInfo();
+	        return;
+	    }
+	    else
+	    if(i==4){
+//4		buttons.addElement(this.closeWorkersButton);
+	       this.commandFieldArea.setText("all quit");
+	       this.clickButton(0);
+	       return;
+	    }
+	    else
+	    if(i==5){
+//5		buttons.addElement(this.clearMessageButton);
+           this.messagesArea.setText("");
+           return;
+	    }
+	    else
+	    if(i==6){
+// 6		buttons.addElement(this.quitButton);
+//           this.close();
+            this.exitThis();
+	       return;
+        }
+    }
+    
+    public ControlledFrame spawnMain(CommunicationNode gui, String args, int pID, String controlMode, String encodingCode)
+    {
+        // This method is derived from interface Spawnable
+        // to do: code goes here
+//           NetworkTesterWorkerFrame frame=new NetworkTesterWorkerFrame("NetworkTester Worker");
+           RcxControlMasterFrame frame=this;
+           this.setTitle("Rcx Controller Master");
+           frame.communicationNode=gui;
+           frame.pID=pID;
+           frame.communicationNode.setEncodingCode(encodingCode);
+           frame.ebuff=gui.commandTranceiver.ebuff;
+
+           frame.show();
+           return frame;
+    }
+
+	public RcxControlMasterFrame()
+	{
+	    panes=new Vector();
+	    panes.addElement(this.messagesPane);
+	    int numberOfPanes=panes.size();
+	    for(int i=0;i<numberOfPanes;i++){
+	        ControlledScrollPane p=(ControlledScrollPane)(panes.elementAt(i));
+	        p.setFrame(this);
+	        p.setID(i);
+	    }
+	    
+		//{{INIT_CONTROLS
+		setTitle("A Simple Frame");
+		getContentPane().setLayout(null);
+		setSize(499,321);
+		setVisible(false);
+		messagesPane.setOpaque(true);
+		getContentPane().add(messagesPane);
+		messagesPane.setBounds(36,36,348,204);
+		messagesPane.getViewport().add(messagesArea);
+		messagesArea.setBackground(java.awt.Color.white);
+		messagesArea.setForeground(java.awt.Color.black);
+		messagesArea.setFont(new Font("SansSerif", Font.PLAIN, 12));
+		messagesArea.setBounds(0,0,344,200);
+		getContentPane().add(commandArea);
+		commandArea.setBackground(java.awt.Color.white);
+		commandArea.setForeground(java.awt.Color.black);
+		commandArea.setFont(new Font("SansSerif", Font.PLAIN, 12));
+		commandArea.setBounds(36,240,252,24);
+		enterButton.setText("enter");
+		enterButton.setActionCommand("enter");
+		getContentPane().add(enterButton);
+		enterButton.setBackground(new java.awt.Color(204,204,204));
+		enterButton.setForeground(java.awt.Color.black);
+		enterButton.setFont(new Font("Dialog", Font.BOLD, 12));
+		enterButton.setBounds(288,240,96,24);
+		JLabel1.setText("Rcx Control Master");
+		getContentPane().add(JLabel1);
+		JLabel1.setBounds(48,12,276,24);
+		clearMessageButton.setText("clear");
+		clearMessageButton.setActionCommand("clear");
+		getContentPane().add(clearMessageButton);
+		clearMessageButton.setBackground(new java.awt.Color(204,204,204));
+		clearMessageButton.setForeground(java.awt.Color.black);
+		clearMessageButton.setFont(new Font("Dialog", Font.BOLD, 12));
+		clearMessageButton.setBounds(384,60,84,24);
+		spawnWorkersButton.setText("spawn workers");
+		spawnWorkersButton.setActionCommand("spawn workers");
+		getContentPane().add(spawnWorkersButton);
+		spawnWorkersButton.setBackground(new java.awt.Color(204,204,204));
+		spawnWorkersButton.setForeground(java.awt.Color.black);
+		spawnWorkersButton.setFont(new Font("Dialog", Font.BOLD, 12));
+		spawnWorkersButton.setBounds(36,264,156,24);
+		collectNodeInfoButton.setText("collect node info");
+		collectNodeInfoButton.setActionCommand("collect node info");
+		getContentPane().add(collectNodeInfoButton);
+		collectNodeInfoButton.setBackground(new java.awt.Color(204,204,204));
+		collectNodeInfoButton.setForeground(java.awt.Color.black);
+		collectNodeInfoButton.setFont(new Font("Dialog", Font.BOLD, 12));
+		collectNodeInfoButton.setBounds(192,264,156,24);
+		closeWorkersButton.setText("close workers");
+		closeWorkersButton.setActionCommand("close workers");
+		getContentPane().add(closeWorkersButton);
+		closeWorkersButton.setBackground(new java.awt.Color(204,204,204));
+		closeWorkersButton.setForeground(java.awt.Color.black);
+		closeWorkersButton.setFont(new Font("Dialog", Font.BOLD, 12));
+		closeWorkersButton.setBounds(348,264,120,24);
+		//}}
+
+		//{{REGISTER_LISTENERS
+		SymWindow aSymWindow = new SymWindow();
+		this.addWindowListener(aSymWindow);
+		SymAction lSymAction = new SymAction();
+		clearMessageButton.addActionListener(lSymAction);
+		quitButton.addActionListener(lSymAction);
+		enterButton.addActionListener(lSymAction);
+		spawnWorkersButton.addActionListener(lSymAction);
+		collectNodeInfoButton.addActionListener(lSymAction);
+		closeWorkersButton.addActionListener(lSymAction);
+		//}}
+
+		//{{INIT_MENUS
+		//}}
+		this.buttons=new Vector();
+		buttons.addElement(this.enterButton);
+		buttons.addElement(this.clearButton);
+		buttons.addElement(this.spawnWorkersButton);
+		buttons.addElement(this.collectNodeInfoButton);
+		buttons.addElement(this.closeWorkersButton);
+		buttons.addElement(this.clearMessageButton);
+		buttons.addElement(this.quitButton);
+    	int numberOfButtons=buttons.size();	
+	    for(int i=0;i<numberOfButtons;i++){
+	        SelectedButton b=(SelectedButton)(buttons.elementAt(i));
+	        b.setFrame(this);
+	        b.setID(i);
+	    }	
+
+		texts=new Vector();
+		texts.addElement(this.messagesArea);
+		texts.addElement(this.commandArea);
+		int numberOfTexts=texts.size();
+	    for(int i=0;i<numberOfTexts;i++){
+	        ControlledTextArea t=(ControlledTextArea)(texts.elementAt(i));
+	        t.setFrame(this);
+	        t.setID(i);
+	    }	
+
+	}
+
+	public RcxControlMasterFrame(String title)
+	{
+		this();
+		setTitle(title);
+	}
+	public void setVisible(boolean b)
+	{
+		if(b)
+		{
+			setLocation(0, 00);
+		}
+//	super.setVisible(b);
+	}
+
+	public void addNotify()
+	{
+		// Record the size of the window prior to calling parents addNotify.
+		Dimension d = getSize();
+
+//		super.addNotify();
+
+		if (fComponentsAdjusted)
+			return;
+
+		// Adjust components according to the insets
+		Insets ins = getInsets();
+		setSize(ins.left + ins.right + d.width, ins.top + ins.bottom + d.height);
+		Component components[] = getContentPane().getComponents();
+		for (int i = 0; i < components.length; i++)
+			{
+			Point p = components[i].getLocation();
+			p.translate(ins.left, ins.top);
+			components[i].setLocation(p);
+		}
+		fComponentsAdjusted = true;
+	}
+
+	// Used for addNotify check.
+	boolean fComponentsAdjusted = false;
+
+	class SymWindow extends java.awt.event.WindowAdapter
+	{
+		public void windowClosing(java.awt.event.WindowEvent event)
+		{
+		Object object = event.getSource();
+		if (object == RcxControlMasterFrame.this)
+			RcxControlMasterFrame_WindowClosing(event);
+		}
+	}
+
+	void RcxControlMasterFrame_WindowClosing(java.awt.event.WindowEvent event)
+	{
+		dispose();		 // dispose of the Frame.
+	}
+	//{{DECLARE_CONTROLS
+	controlledparts.ControlledScrollPane messagesPane = new controlledparts.ControlledScrollPane();
+	controlledparts.ControlledTextArea messagesArea = new controlledparts.ControlledTextArea();
+	controlledparts.ControlledTextArea commandArea = new controlledparts.ControlledTextArea();
+	controlledparts.ControlledButton enterButton = new controlledparts.ControlledButton();
+	javax.swing.JLabel JLabel1 = new javax.swing.JLabel();
+	controlledparts.ControlledButton clearMessageButton = new controlledparts.ControlledButton();
+	controlledparts.ControlledButton spawnWorkersButton = new controlledparts.ControlledButton();
+	controlledparts.ControlledButton collectNodeInfoButton = new controlledparts.ControlledButton();
+	controlledparts.ControlledButton closeWorkersButton = new controlledparts.ControlledButton();
+	//}}
+
+	//{{DECLARE_MENUS
+	//}}
+
+
+	class SymAction implements java.awt.event.ActionListener
+	{
+		public void actionPerformed(java.awt.event.ActionEvent event)
+		{
+			Object object = event.getSource();
+			if (object == clearMessageButton)
+				clearMessageButton_actionPerformed(event);
+			else if (object == quitButton)
+				quitButton_actionPerformed(event);
+			else if (object == enterButton)
+				enterButton_actionPerformed(event);
+			else if (object == spawnWorkersButton)
+				spawnWorkersButton_actionPerformed(event);
+			else if (object == collectNodeInfoButton)
+				collectNodeInfoButton_actionPerformed(event);
+			else if (object == closeWorkersButton)
+				closeWorkersButton_actionPerformed(event);
+		}
+	}
+
+	public void clearMessageButton_actionPerformed(java.awt.event.ActionEvent event)
+	{
+		// to do: code goes here.
+			 
+		clearMessageButton_actionPerformed_Interaction1(event);
+	}
+
+	public void clearMessageButton_actionPerformed_Interaction1(java.awt.event.ActionEvent event)
+	{
+		try {
+			messagesArea.setText("");
+		} catch (java.lang.Exception e) {
+		}
+	}
+
+	void quitButton_actionPerformed(java.awt.event.ActionEvent event)
+	{
+		// to do: code goes here.
+			 
+		quitButton_actionPerformed_Interaction1(event);
+	}
+
+	void quitButton_actionPerformed_Interaction1(java.awt.event.ActionEvent event)
+	{
+		try {
+//			this.close();
+            this.exitThis();
+		} catch (java.lang.Exception e) {
+		}
+	}
+
+	void enterButton_actionPerformed(java.awt.event.ActionEvent event)
+	{
+		// to do: code goes here.
+			 
+		enterButton_actionPerformed_Interaction1(event);
+	}
+
+	void enterButton_actionPerformed_Interaction1(java.awt.event.ActionEvent event)
+	{
+		try {
+//			commandArea.show();
+		} catch (java.lang.Exception e) {
+		}
+	}
+
+	void spawnWorkersButton_actionPerformed(java.awt.event.ActionEvent event)
+	{
+		// to do: code goes here.
+			 
+		spawnWorkersButton_actionPerformed_Interaction1(event);
+	}
+
+	void spawnWorkersButton_actionPerformed_Interaction1(java.awt.event.ActionEvent event)
+	{
+		try {
+//			spawnWorkersButton.show();
+		} catch (java.lang.Exception e) {
+		}
+	}
+
+	void collectNodeInfoButton_actionPerformed(java.awt.event.ActionEvent event)
+	{
+		// to do: code goes here.
+			 
+		collectNodeInfoButton_actionPerformed_Interaction1(event);
+	}
+
+	void collectNodeInfoButton_actionPerformed_Interaction1(java.awt.event.ActionEvent event)
+	{
+		try {
+//			collectNodeInfoButton.show();
+		} catch (java.lang.Exception e) {
+		}
+	}
+
+	public void closeWorkersButton_actionPerformed(java.awt.event.ActionEvent event)
+	{
+		// to do: code goes here.
+			 
+		closeWorkersButton_actionPerformed_Interaction1(event);
+	}
+
+	public void closeWorkersButton_actionPerformed_Interaction1(java.awt.event.ActionEvent event)
+	{
+		try {
+//			closeWorkersButton.show();
+		} catch (java.lang.Exception e) {
+		}
+	}
+}

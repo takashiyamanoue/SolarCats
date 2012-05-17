@@ -1,0 +1,790 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0068)http://www.vorlesungen.uos.de/informatik/robot00/html/skript-19.html -->
+<HTML><HEAD><TITLE>4.2 Java und fischertechnik</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
+<META http-equiv=Content-Style-Type content=text/css>
+<META content="MSHTML 6.00.2900.2627" name=GENERATOR><LINK 
+href="4_2 Java und fischertechnik.files/skript.css" type=text/css 
+charset=ISO-8859-1 rel=STYLESHEET></HEAD>
+<BODY bgColor=#ffffff>
+<DIV><BR clear=all>
+<TABLE width="100%">
+  <TBODY>
+  <TR>
+    <TD align=left><A 
+      href="http://www.vorlesungen.uos.de/informatik/robot00/html/skript-20.html"><IMG 
+      height=22 src="4_2 Java und fischertechnik.files/right.gif" width=18 
+      border=0></A> <A 
+      href="http://www.vorlesungen.uos.de/informatik/robot00/html/skript-17.html"><IMG 
+      height=22 src="4_2 Java und fischertechnik.files/up.gif" width=18 
+      border=0></A> <A 
+      href="http://www.vorlesungen.uos.de/informatik/robot00/index.html"><IMG 
+      height=22 src="4_2 Java und fischertechnik.files/toc.gif" width=18 
+      border=0></A> <A 
+      href="http://www.vorlesungen.uos.de/informatik/robot00/html/images/search.html"><IMG 
+      height=22 src="4_2 Java und fischertechnik.files/search.gif" width=18 
+      border=0></A> <A 
+      href="http://www.vorlesungen.uos.de/informatik/robot00/html/skript-18.html"><IMG 
+      height=22 src="4_2 Java und fischertechnik.files/left.gif" width=18 
+      border=0></A>
+    <TD align=right><FONT size=-1>Copyright © 2000 by <A 
+      href="mailto:axel@uos.de">Axel T. Schreiner</A>.&nbsp; All Rights 
+      Reserved.</FONT></TR></TBODY></TABLE>
+<P></P></DIV>
+<H2 class=SubChapter><A name=pgfId-1000036353></A>4.2 Java und 
+fischertechnik</H2>
+<P class=Normal><A name=pgfId-1000036356></A>Folgendes hexadezimale <FONT 
+class=Link><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/doc/fischertechnik/bytecodes.pdf">Byte-Protokoll</A></FONT> 
+ist für das Intelligent Interface offengelegt:</P>
+<TABLE>
+  <TBODY>
+  <TR>
+    <TD>
+      <P class=Mapping-Table-Cell><A name=pgfId-1000036961></A>c1 mm</P></TD>
+    <TD>
+      <P class=Mapping-Table-Cell><A name=pgfId-1000036963></A><BR>tt</P></TD>
+    <TD>
+      <P class=Normal><A name=pgfId-1000036965></A>Motorzustand 
+      setzen,<BR>digitale Eingänge lesen</P></TD></TR>
+  <TR>
+    <TD>
+      <P class=Mapping-Table-Cell><A name=pgfId-1000036967></A>c5 mm</P></TD>
+    <TD>
+      <P class=Mapping-Table-Cell><A name=pgfId-1000036969></A><BR>tt x1 x2 
+    </P></TD>
+    <TD>
+      <P class=Normal><A name=pgfId-1000036971></A>Motorzustand 
+      setzen,<BR>digitale Eingänge und EX lesen</P></TD></TR>
+  <TR>
+    <TD>
+      <P class=Mapping-Table-Cell><A name=pgfId-1000036973></A>c9 mm</P></TD>
+    <TD>
+      <P class=Mapping-Table-Cell><A name=pgfId-1000036975></A><BR>tt y1 y2 
+    </P></TD>
+    <TD>
+      <P class=Normal><A name=pgfId-1000036977></A>Motorzustand 
+      setzen,<BR>digitale Eingänge und EY lesen</P></TD></TR></TBODY></TABLE>
+<P class=Normal><A name=pgfId-1000036908></A>Soll ein Java-Programm auf äußere 
+Einflüsse reagieren, muß man die Eingänge möglichst häufig lesen und in einem 
+Objekt im Programm speichern, das das Modell repräsentiert.</P>
+<P class=Normal><A name=pgfId-1000036983></A>Die wesentliche Klasse ist <FONT 
+class=Link><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/Interface.java">ft.Interface</A></FONT> 
+. Eine Instanz ist über das Communications API mit einer Schnittstelle verbunden 
+und hält den Zustand des angeschlossenen Geräts in einer Reihe von Objekten 
+innerer Klassen. Ein Thread sorgt in der Instanz dafür, daß der Zustand 
+möglichst aktuell gehalten wird.</P>
+<P class=Normal><A name=pgfId-1000036985></A>Mit dem Hauptprogramm kann man die 
+Geschwindigkeit der Aktualisierung testen. Eine Vielzahl von Parametern des 
+Pakets sind über eine Properties-Datei <FONT class=Link><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/ft.properties">ft.properties</A></FONT> 
+kontrollierbar, die sich im aktuellen Katalog befinden muß, deshalb kann man die 
+Leistung mit oder ohne Zugriff auf die analogen Eingänge leicht messen:</P><PRE class=Dialog>C&gt; java ft.Interface COM1 100
+8 true 1
+100 in 20050 msec, 4 Hz
+</PRE>
+<P class=Normal><A name=pgfId-1000036981></A>Mit dem Communications API von Sun 
+kann ein Java-Programm nur 4 mal pro Sekunde den Zustand der Eingänge erfahren 
+-- das reicht natürlich nicht.</P>
+<DIV>
+<H3 class=Section><A name=pgfId-1000037012></A>ft.comm</H3>
+<P class=Normal><A name=pgfId-1000036890></A>Es ist relativ einfach, den Teil 
+des Communications API für serielle Schnittstellen unter Windows zu 
+implementieren, den man braucht, um darüber von Java aus das Intelligent 
+Interface zu betreiben.</P>
+<P class=Normal><A name=pgfId-1000037019></A><TT class=Code><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/comm/Driver.java">ft.comm.Driver 
+implements javax.comm.CommDriver</A></TT> </P>
+<P class=Normal><A name=pgfId-1000037022></A><TT class=Code>initialize()</TT> 
+wird von <TT class=Code>CommPortIdentifier</TT> aufgerufen und lädt aus der 
+Properties-Datei <FONT class=Link><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/ft.properties">ft.properties</A></FONT> 
+unter anderem eine Liste von Namen wie <TT class=Code>COM1</TT> , die als 
+Port-Namen hinterlegt werden und die unter Windows als Dateinamen zum Zugriff 
+auf serielle Schnittstellen geeignet sein müssen.</P>
+<P class=Normal><A name=pgfId-1000037023></A><TT class=Code>getCommPort()</TT> 
+wird später von <TT class=Code>CommPortIdentifier</TT> aufgerufen und muß zu 
+einem Port-Namen dann ein Port-Objekt liefern.</P>
+<P class=Normal><A name=pgfId-1000037030></A><TT class=Code><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/comm/SerialPort.java">ft.comm.SerialPort 
+extends javax.comm.SerialPort</A></TT> </P>
+<P class=Normal><A name=pgfId-1000037031></A><TT class=Code>SerialPort()</TT> 
+erhält den Port-Namen und konstruiert zwei Byte-Ströme zum Zugriff auf die 
+Schnittstelle, die dann <TT class=Code>getInputStream()</TT> und <TT 
+class=Code>getOutputStream()</TT> als Resultat liefern.</P>
+<P class=Normal><A name=pgfId-1000037032></A>Alle anderen Methoden sind trivial 
+implementiert und verbieten so weit als möglich alle anderen Operationen. Die 
+Übertragungsparameter sind unveränderlich 9600 Baud, 8 Bit, keine Parität und 1 
+Stop-Bit.</P>
+<P class=Normal><A name=pgfId-1000037059></A>Der wesentliche 
+Geschwindigkeitsvorteil gegenüber der Referenzimplementierung von Sun entsteht 
+offenbar dadurch, daß man für diesen speziellen Zweck auf alle Listener 
+verzichten kann.</P>
+<P class=Normal><A name=pgfId-1000037065></A><TT class=Code><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/comm/SerialInputStream.java">ft.comm.SerialInputStream 
+extends java.io.InputStream</A></TT> </P>
+<P class=Normal><A name=pgfId-1000037066></A><TT 
+class=Code>SerialInputStream()</TT> erhält den Port-Namen und notiert einen 
+Windows-Handle zum Zugriff auf die Schnittstelle. Die verschiedenen <TT 
+class=Code>read</TT> -Methoden liefern Bytes.</P>
+<P class=Normal><A name=pgfId-1000037070></A><TT class=Code><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/comm/SerialOutputStream.java">ft.comm.SerialOutputStream 
+extends java.io.OutputStream</A></TT> </P>
+<P class=Normal><A name=pgfId-1000037071></A><TT 
+class=Code>SerialOutputStream()</TT> erhält den Port-Namen und notiert einen 
+Windows-Handle zum Zugriff auf die Schnittstelle. Die verschiedenen <TT 
+class=Code>write</TT> -Methoden akzeptieren Bytes.</P>
+<P class=Normal><A name=pgfId-1000037090></A><TT class=Code><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/comm/ft.comm.c">ft.comm.dll</A></TT> 
+</P>
+<P class=Normal><A name=pgfId-1000037105></A>Die wesentlichen Methoden dieser 
+Klassen werden in einer Bibliothek mit dem Java Native Interface in C 
+implementiert und verwenden Windows Funktionen. Die C-Deklarationen für die 
+Java-Methoden kann man sich von <I class=Italic>javah</I> generieren lassen. Die 
+Bibliothek wird von <TT class=Code>ft.comm.Driver</TT> beim ersten Zugriff 
+dynamisch geladen.</P>
+<P class=Normal><A name=pgfId-1000037111></A><TT class=Code><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/comm/ParallelPort.java">ft.comm.ParallelPort 
+extends javax.comm.ParallelPort</A></TT> </P>
+<P class=Normal><A name=pgfId-1000037133></A>Es stellt sich heraus, daß man die 
+Implementierung so konstruieren kann, daß das Universal Interface aus der Sicht 
+von Java unter Windows das gleiche <FONT class=Link><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/doc/fischertechnik/bytecodes.pdf">Byte-Protokoll</A></FONT> 
+verarbeitet. Unter Windows kann man also mit der gleichen Software wahlweise das 
+Intelligent Interface oder das Universal Interface betreiben. Der einzige 
+Unterschied liegt im Port-Namen für den Zugriff und in der Geschwindigkeit.</P>
+<P class=Normal><A name=pgfId-1000037176></A><TT class=Code>ParallelPort()</TT> 
+erhält den Port-Namen und konstruiert zwei Byte-Ströme zum Zugriff auf die 
+Schnittstelle, die dann <TT class=Code>getInputStream()</TT> und <TT 
+class=Code>getOutputStream()</TT> als Resultat liefern. Der Port-Name muß die 
+hexadezimale Basisadresse einer parallelen Schnittstelle sein, zum Beispiel <TT 
+class=Code>378</TT> oder <TT class=Code>3bc</TT> .</P>
+<P class=Normal><A name=pgfId-1000037177></A>Alle anderen Methoden sind trivial 
+implementiert und verbieten so weit als möglich alle anderen Operationen.</P>
+<P class=Normal><A name=pgfId-1000037202></A><TT class=Code><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/comm/ParallelOutputStream.java">ft.comm.ParallelOutputStream 
+extends java.io.OutputStream</A></TT> </P>
+<P class=Normal><A name=pgfId-1000037203></A><TT 
+class=Code>ParallelOutputStream()</TT> wird zuerst aufgerufen, erhält den 
+Port-Namen und notiert einen Index zum Zugriff auf die Schnittstelle. Die 
+verschiedenen <TT class=Code>write</TT> -Methoden akzeptieren Bytes.</P>
+<P class=Normal><A name=pgfId-1000037116></A><TT class=Code><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/comm/ParallelInputStream.java">ft.comm.ParallelInputStream 
+extends java.io.InputStream</A></TT> </P>
+<P class=Normal><A name=pgfId-1000037117></A><TT 
+class=Code>ParallelInputStream()</TT> erhält den Port-Namen und notiert einen 
+Index zum Zugriff auf die Schnittstelle. Die verschiedenen <TT 
+class=Code>read</TT> -Methoden liefern Bytes.</P>
+<P class=Normal><A name=pgfId-1000037122></A><TT class=Code><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/src/parallel.c">parallel.c</A></TT> 
+</P>
+<P class=Normal><A name=pgfId-1000037123></A>Die wesentlichen Methoden dieser 
+Klassen werden ebenfalls mit dem Java Native Interface in C implementiert und 
+sind Teil von <TT class=Code>ft.comm.dll</TT> .</P>
+<P class=Normal><A name=pgfId-1000037220></A>Eine <TT class=Code>write</TT> 
+-Methode muß zwei Bytes schreiben und ruft <TT class=Code>ftOutput()</TT> mit 
+der Port-Adresse und dem zweiten Byte auf. Diese Funktion schreibt Bytes so in 
+das Daten-Register der Schnittstelle, daß folgendes Zeitdiagramm auf den 
+Datenleitungen entsteht:</P>
+<P class=Picture><A name=pgfId-1000037221></A><IMG 
+src="4_2 Java und fischertechnik.files/skript-119.gif" align=baseline> 
+&nbsp;</P>
+<P class=Normal><A name=pgfId-1000037225></A>Der Zeittakt hängt dabei von einer 
+Funktion <TT class=Code>ftIdle()</TT> ab und kann in der Properties-Datei <FONT 
+class=Link><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/ft.properties">ft.properties</A></FONT> 
+beeinflußt werden.</P>
+<P class=Normal><A name=pgfId-1000037233></A>Liest eine <TT class=Code>read</TT> 
+-Methode ein Byte, wird <TT class=Code>ftInput()</TT> mit der Port-Adresse 
+aufgerufen. Diese Funktion schreibt Bytes so in das Daten-Register der 
+Schnittstelle und beobachtet das <TT class=Code>busy</TT> -Bit des 
+Status-Registers, daß folgendes Zeitdiagramm auf den Datenleitungen 
+entsteht:</P>
+<P class=Picture><A name=pgfId-1000037236></A><IMG 
+src="4_2 Java und fischertechnik.files/skript-120.gif" align=baseline> 
+&nbsp;</P>
+<P class=Normal><A name=pgfId-1000037240></A>Das beobachtete Byte wird als 
+Resultat geliefert. Man muß den Zeittakt so einstellen, daß die Eingänge E1 und 
+E8 korrekt erkannt werden.</P>
+<P class=Normal><A name=pgfId-1000037252></A>Liest eine <TT class=Code>read</TT> 
+-Methode 3 Bytes, wird zuerst <TT class=Code>ftDigital()</TT> und dann <TT 
+class=Code>ftAnalog()</TT> mit der Port-Adresse und einem Wert aufgerufen, der 
+vom letzten Kommando bei <TT class=Code>ftOutput()</TT> abhängt und die Leitung 
+<TT class=Code>triggerX</TT> oder <TT class=Code>triggerY</TT> wählt. Diesmal 
+wird folgendes Zeitdiagramm bearbeitet:</P>
+<P class=Picture><A name=pgfId-1000037256></A><IMG 
+src="4_2 Java und fischertechnik.files/skript-121.gif" align=baseline> 
+&nbsp;</P>
+<P class=Normal><A name=pgfId-1000037260></A>Das Resultat entsteht, indem die 
+Zeit beobachtet wird, bis <TT class=Code>busy</TT> wieder im Ruhezustand ist. 
+Dabei wird ebenfalls f<TT class=Code> tIdle()</TT> aufgerufen, aber mit einem 
+größeren Wert, der ebenfalls in <FONT class=Link><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/ft.properties">ft.properties</A></FONT> 
+beeinflußt werden kann.</P></DIV>
+<DIV>
+<H3 class=Section><A name=pgfId-1000037270></A>Performance</H3>
+<P class=Normal><A name=pgfId-1000037274></A>Mit <TT 
+class=Code>ft.Interface</TT> kann man die Geschwindigkeit messen, mit der das 
+Objekt und die Schnittstelle aktualisiert werden:</P>
+<TABLE>
+  <TBODY>
+  <TR>
+    <TH>
+      <P class=Normal><A name=pgfId-1000037487></A>Computer</P></TH>
+    <TH>
+      <P class=Normal><A name=pgfId-1000037489></A>System</P></TH>
+    <TH>
+      <P class=Normal><A name=pgfId-1000037491></A>Comm API</P></TH>
+    <TH>
+      <P class=Normal><A name=pgfId-1000037493></A>Interface</P></TH>
+    <TH>
+      <P class=Normal><A name=pgfId-1000037495></A>Leistung</P></TH></TR>
+  <TR>
+    <TD rowSpan=4>
+      <P class=Normal><A name=pgfId-1000037497></A>Toshiba 430CDT<BR>Pentium 120 
+      MHz</P></TD>
+    <TD rowSpan=3>
+      <P class=Normal><A name=pgfId-1000037499></A>Windows 98 SE<BR>JDK 
+      1.2.2_005<BR>HotSpot 2.0rc2</P></TD>
+    <TD>
+      <P class=Normal><A name=pgfId-1000037502></A>Sun</P></TD>
+    <TD>
+      <P class=Normal><A name=pgfId-1000037504></A>seriell</P></TD>
+    <TD>
+      <P class=Normal><A name=pgfId-1000037506></A>4 Hz</P></TD></TR>
+  <TR>
+    <TD rowSpan=2>
+      <P class=Normal><A name=pgfId-1000037582></A><TT class=Code>ft.comm</TT> 
+      </P></TD>
+    <TD>
+      <P class=Normal><A name=pgfId-1000037584></A>seriell</P></TD>
+    <TD>
+      <P class=Normal><A name=pgfId-1000037586></A>97 Hz</P></TD></TR>
+  <TR>
+    <TD>
+      <P class=Normal><A name=pgfId-1000037574></A>parallel, idle 1</P></TD>
+    <TD>
+      <P class=Normal><A name=pgfId-1000037576></A>298 Hz</P></TD></TR>
+  <TR>
+    <TD>
+      <P class=Normal><A name=pgfId-1000037560></A>Linux 2.2.13<BR>JDK 1.2.2 
+      (Sun)</P></TD>
+    <TD>
+      <P class=Normal><A name=pgfId-1000037562></A><I 
+      class=Italic>rxtx-1.3-13</I> </P></TD>
+    <TD>
+      <P class=Normal><A name=pgfId-1000037564></A>seriell</P></TD>
+    <TD>
+      <P class=Normal><A name=pgfId-1000037566></A>99 Hz</P></TD></TR>
+  <TR>
+    <TD rowSpan=3>
+      <P class=Normal><A name=pgfId-1000037508></A>Sony PCG-F190<BR>Pentium II 
+      366 MHz</P></TD>
+    <TD rowSpan=3>
+      <P class=Normal><A name=pgfId-1000037510></A>Windows 98 SE<BR>JDK 
+      1.3.0<BR>HotSpot 2.0rc2</P></TD>
+    <TD>
+      <P class=Normal><A name=pgfId-1000037512></A>Sun</P></TD>
+    <TD>
+      <P class=Normal><A name=pgfId-1000037514></A>seriell</P></TD>
+    <TD>
+      <P class=Normal><A name=pgfId-1000037516></A>5 Hz</P></TD></TR>
+  <TR>
+    <TD rowSpan=2>
+      <P class=Normal><A name=pgfId-1000037522></A><TT class=Code>ft.comm</TT> 
+      </P></TD>
+    <TD>
+      <P class=Normal><A name=pgfId-1000037524></A>seriell</P></TD>
+    <TD>
+      <P class=Normal><A name=pgfId-1000037526></A>130 Hz</P></TD></TR>
+  <TR>
+    <TD>
+      <P class=Normal><A name=pgfId-1000037534></A>parallel, idle 10</P></TD>
+    <TD>
+      <P class=Normal><A name=pgfId-1000037536></A>4500 
+Hz</P></TD></TR></TBODY></TABLE></DIV>
+<DIV>
+<H3 class=Section><A name=pgfId-1000037630></A>Die analogen Eingänge sind beim 
+Universal Interface nur mühsam zu messen. Sie blieben bei diesem Test 
+unberücksichtigt.</H3>
+<P class=Normal><A name=pgfId-1000037725></A>Die mögliche Geschwindigkeit ist 
+beim Universal Interface so hoch, daß man in <FONT class=Link><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/ft.properties">ft.properties</A></FONT> 
+einen Taktgeber vorsehen sollte -- <TT class=Code>idle</TT> zu vergrößern 
+bedeutet nur, daß viel CPU-Zeit vergeudet wird.</P></DIV>
+<DIV>
+<H3 class=Section><A name=pgfId-1000037633></A>ft</H3>
+<P class=Normal><A name=pgfId-1000037634></A>Aufbauend auf dem Communications 
+API baut man nach dem Model-View-Controller-Prinzip eine Klassenhierarchie auf, 
+mit der man Modelle beobachten und steuern kann.</P>
+<TABLE>
+  <TBODY>
+  <TR>
+    <TD>
+      <P class=CellBody><A name=pgfId-1000037693></A><I class=Italic>Model</I> 
+      </P></TD>
+    <TD>
+      <P class=CellBody><A name=pgfId-1000037695></A>wickelt auf Anfrage einen 
+      Algorithmus ab;</P></TD></TR>
+  <TR>
+    <TD>
+      <P class=CellBody><A name=pgfId-1000037697></A>&nbsp;</P></TD>
+    <TD>
+      <P class=CellBody><A name=pgfId-1000037699></A>kapselt Zustand, weiß 
+      nichts von Umgebung.</P></TD></TR>
+  <TR>
+    <TD>
+      <P class=CellBody><A name=pgfId-1000037701></A>&nbsp;</P></TD>
+    <TD>
+      <P class=CellBody><A name=pgfId-1000037703></A>&nbsp;</P></TD></TR>
+  <TR>
+    <TD>
+      <P class=CellBody><A name=pgfId-1000037705></A><I class=Italic>View</I> 
+      </P></TD>
+    <TD>
+      <P class=CellBody><A name=pgfId-1000037707></A>kommuniziert mit 
+      Umgebung;</P></TD></TR>
+  <TR>
+    <TD>
+      <P class=CellBody><A name=pgfId-1000037709></A><I 
+      class=Italic></I>&nbsp;</P></TD>
+    <TD>
+      <P class=CellBody><A name=pgfId-1000037711></A>stellt Werte dar, die vom 
+      Programm oder von der Umgebung geliefert werden, kann Eingaben in Anfragen 
+      verwandeln.</P></TD></TR>
+  <TR>
+    <TD>
+      <P class=CellBody><A name=pgfId-1000037713></A>&nbsp;</P></TD>
+    <TD>
+      <P class=CellBody><A name=pgfId-1000037715></A>&nbsp;</P></TD></TR>
+  <TR>
+    <TD>
+      <P class=CellBody><A name=pgfId-1000037717></A><I 
+      class=Italic>Controller</I> </P></TD>
+    <TD>
+      <P class=CellBody><A name=pgfId-1000037719></A>koordiniert 
+  Ablauf;</P></TD></TR>
+  <TR>
+    <TD>
+      <P class=CellBody><A name=pgfId-1000037721></A>&nbsp;</P></TD>
+    <TD>
+      <P class=CellBody><A name=pgfId-1000037723></A>sorgt für Datenfluß von 
+      View über Model zu View.</P></TD></TR></TBODY></TABLE>
+<P class=Normal><A name=pgfId-1000037635></A>In diesem Fall speichert ein 
+Model-Objekt den aktuellen Zustand eines Modells, der über ein Interface 
+beobachtet wird. View- und Controller-Objekte beobachten das Model. Ein 
+Controller wickelt eine Ablaufsteuerung ab, indem er das Model dazu veranlaßt, 
+seinen Zustand zu ändern.</P>
+<P class=Normal><A name=pgfId-1000037726></A><TT class=Code><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/Constants.java">ft.Constants</A></TT> 
+</P>
+<P class=Normal><A name=pgfId-1000037727></A>Dieses interface vereinbart eine 
+Reihe von konstanten Masken, die als Argumente der verschiedenen Methoden 
+angegeben werden sollten.</P>
+<P class=Normal><A name=pgfId-1000037731></A><TT class=Code><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/Interface.java">ft.Interface</A></TT> 
+</P>
+<P class=Normal><A name=pgfId-1000036359></A>Dies ist das Model. Eine Instanz 
+ist über das Communications API mit einer Schnittstelle verbunden und hält den 
+Zustand des angeschlossenen Geräts in einer Reihe von inneren Model-Objekten. 
+<TT class=Code>run()</TT> sorgt in der Instanz dafür, daß der Zustand insgesamt 
+möglichst aktuell gehalten und der Observer-Thread benachrichtigt wird. Über 
+<FONT class=Link><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/ft.properties">ft.properties</A></FONT> 
+kann ein weiterer Thread erzeugt werden, der eine untere Zeitschranke für einen 
+Aktualisierungszyklus setzt.</P>
+<P class=Normal><A name=pgfId-1000036361></A>Mit <TT class=Code>main()</TT> kann 
+man die Geschwindigkeit der Aktualisierung testen. Eine Vielzahl von Parametern 
+des Pakets sind über <FONT class=Link><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/ft.properties">ft.properties</A></FONT> 
+kontrollierbar, deshalb kann man auch zum Beispiel die Leistung bei Zugriff auf 
+die analogen Eingänge leicht messen -- das kostet beim Intelligent Interface 
+etwa 20%.<TT class=Code> </TT></P>
+<P class=Normal><A name=pgfId-1000036363></A>Die Klassenmethode <TT 
+class=Code>open(portname)</TT> liefert eine <TT class=Code>Interface</TT> 
+-Instanz für eine Schnittstelle wie <TT class=Code>COM1</TT> .</P>
+<P class=Normal><A name=pgfId-1000036366></A>Ein <TT class=Code>Interface</TT> 
+kann Observer benachrichtigen, wenn sich der Zustand seines Geräts ändert oder 
+ein Aktualisierungszyklus beendet ist. Verschiedene Observer können jederzeit 
+mit <TT class=Code>addObserver(mask, observer)</TT> angeschlossen oder mit <TT 
+class=Code>removeObserver(mask, observer)</TT> entfernt werden. Wenn Observer 
+angemeldet sind, benachrichtigt sie nacheinander ein Dämon-Thread. Die Observer 
+sollten möglichst schnell reagieren, damit dieser Thread einigermaßen aktuell 
+bleibt; sie sollten aber die Aktualisierung der <TT class=Code>Interface</TT> 
+-Instanz selbst nicht beeinflussen können.</P>
+<P class=Normal><A name=pgfId-1000036382></A>Ein Observer muß ein spezifisches 
+<TT class=Code>interface</TT> implementieren, das jeweils eine <TT 
+class=Code>edge</TT> -Methode definiert, mit der er benachrichtigt wird.</P>
+<P class=Normal><A name=pgfId-1000037789></A><TT class=Code><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/Interface.java">ft.Interface.</A></TT> 
+MotorObserver</P>
+<P class=Normal><A name=pgfId-1000036387></A><TT class=Code>edge(iface, motor, 
+state)</TT> wird aufgerufen, wenn sich die Laufrichtung eines Motors ändert, und 
+berichtet die neue Laufrichtung.</P>
+<P class=Normal><A name=pgfId-1000036425></A><TT class=Code>set(motors, 
+state)</TT> legt in <TT class=Code>ft.Interface</TT> eine neue Laufrichtung für 
+einen oder mehrere Motoren fest.</P>
+<P class=Normal><A name=pgfId-1000036524></A>Vermutlich sollte eine asynchrone 
+<TT class=Code>get</TT> -Methode definiert werden.</P>
+<P class=Normal><A name=pgfId-1000037796></A><TT class=Code><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/Interface.java">ft.Interface.</A></TT> 
+DigitalObserver</P>
+<P class=Normal><A name=pgfId-1000036394></A><TT class=Code>edge(iface, sensor, 
+state, count)</TT> wird aufgerufen, wenn sich der Zustand eines digitalen 
+Eingangs ändert, und berichtet den neuen Zustand und den aktuellen Wert eines 
+Zählers, der jedesmal geändert wird, wenn sich der Zustand ändert.</P>
+<P class=Normal><A name=pgfId-1000036426></A><TT class=Code>set(sensors, count, 
+delta)</TT> setzt in <TT class=Code>ft.Interface</TT> für einen oder mehrere 
+digitale Eingänge den aktuellen Zählerwert und den Wert, der bei einer Änderung 
+addiert oder subtrahiert wird. <TT class=Code>setDelta(sensors, delta)</TT> 
+setzt nur den Änderungswert.</P>
+<P class=Normal><A name=pgfId-1000036525></A>Aktuellen Zustand und Zähler eines 
+Eingangs liefern <TT class=Code>isSet(sensor)</TT> und <TT 
+class=Code>isAt(sensor)</TT> in <TT class=Code>ft.Interface</TT> .</P>
+<P class=Normal><A name=pgfId-1000037801></A><TT class=Code><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/Interface.java">ft.Interface.</A></TT> 
+AnalogObserver</P>
+<P class=Normal><A name=pgfId-1000036398></A><TT class=Code>edge(iface, sensor, 
+value)</TT> wird aufgerufen, wenn sich der skalierte Wert eines analogen 
+Eingangs ändert, und berichtet den aktuellen, skalierten Wert des Eingangs.</P>
+<P class=Normal><A name=pgfId-1000036407></A><TT 
+class=Code>getScale(sensor)</TT> liefert in <TT class=Code>ft.Interface</TT> die 
+Koeffizienten <I class=Italic>a</I> und <I class=Italic>b</I> , mit denen ein 
+analoger Eingang linear skaliert wird. <TT class=Code>setScale(sensors, a, 
+b)</TT> setzt in <TT class=Code>ft.Interface</TT> diese Koeffizienten für einen 
+oder mehrere Eingänge.</P>
+<P class=Normal><A name=pgfId-1000036399></A>Ein analoger Eingang wird nur 
+abgefragt, wenn ein <TT class=Code>AnalogObserver</TT> dafür angemeldet ist. Das 
+Universal Interface wird wesentlich langsamer, wenn man analoge Eingänge 
+berücksichtigen muß.</P>
+<P class=Normal><A name=pgfId-1000036415></A>In einem Zyklus wird mindestens der 
+Motor-Zustand gesetzt und der Zustand der digitalen Eingaben abgefragt. <TT 
+class=Code>setQuery(count)</TT> setzt in <TT class=Code>ft.Interface</TT> die 
+Anzahl Zyklen, innerhalb derer der Zustand der analogen Eingaben einmal 
+abgefragt wird. <TT class=Code>getQuery()</TT> liefert in <TT 
+class=Code>ft.Interface</TT> diese Anzahl; typisch ist der Wert 10, das heißt, 
+daß die analogen Eingaben nur mit etwa 10 Hz aktualisiert werden. Werden sie 
+ständig aktualisiert, sinkt die Leistung insgesamt um etwa 20%.</P>
+<P class=Normal><A name=pgfId-1000037810></A><TT class=Code><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/Interface.java">ft.Interface.</A></TT> 
+CycleObserver</P>
+<P class=Normal><A name=pgfId-1000037848></A><TT class=Code>edge(iface, 
+cycles)</TT> wird aufgerufen, wenn ein Aktualisierungszyklus beendet ist, und 
+berichtet den aktuellen Wert des Zyklenzählers.</P>
+<P class=Normal><A name=pgfId-1000037849></A><TT class=Code>set(cycles)</TT> 
+setzt in <TT class=Code>ft.Interface</TT> den aktuellen Zählerwert.</P>
+<P class=Normal><A name=pgfId-1000037850></A>Vermutlich sollte eine asynchrone 
+<TT class=Code>get</TT> -Methode definiert werden.</P></DIV>
+<DIV>
+<H3 class=Section><A name=pgfId-1000036427></A>Grafische Bausteine</H3>
+<P class=Normal><A name=pgfId-1000036428></A>Eine Reihe von JavaBeans auf der 
+Basis des Abstract Window Toolkit können als Observer angemeldet werden. Sie 
+sind Views oder auch Controller und berücksichtigen Konfigurationsparameter in 
+der Properties-Datei <FONT class=Link><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/ft.properties">ft.properties</A></FONT> 
+.</P>
+<P class=Normal><A name=pgfId-1000037933></A><FONT class=Link><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/TouchView.java">ft.TouchView</A></FONT> 
+stellt den Zustand einer digitalen Eingabe dar.</P>
+<P class=Normal><A name=pgfId-1000037935></A><FONT class=Link><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/EdgeView.java">ft.EdgeView</A></FONT> 
+enthält eine <TT class=Code>TouchView</TT> und zeigt außerdem den aktuellen 
+Zählerstand an.</P>
+<P class=Normal><A name=pgfId-1000037930></A><FONT class=Link><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/EdgeButton.java">ft.EdgeButton</A></FONT> 
+erweitert <TT class=Code>EdgeView</TT> ; man kann den Zählerwert eingeben und 
+über einen Knopf kontrollieren, ob jeweils aufwärts oder abwärts gezählt werden 
+soll.</P>
+<P class=Normal><A name=pgfId-1000036448></A><FONT class=Link><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/MotorView.java">ft.MotorView</A></FONT> 
+stellt die Laufrichtung eines Motors dar.</P>
+<P class=Normal><A name=pgfId-1000036449></A><FONT class=Link><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/MotorButton.java">ft.MotorButton</A></FONT> 
+erweitert <TT class=Code>MotorView</TT> ; man kann per Maus-Click einen Motor 
+links- oder rechts-laufen lassen.</P>
+<P class=Normal><A name=pgfId-1000037995></A><FONT class=Link><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/StepMotor.java">ft.StepMotor</A></FONT> 
+erweitert <TT class=Code>MotorButton</TT> und kombiniert einen Motor mit zwei 
+digitalen Eingängen; eine <TT class=Code>TouchView</TT> zeigt den Nullpunkt und 
+eine <TT class=Code>EdgeView</TT> zeigt die aktuelle Position des Motors. Man 
+kann per Maus-Click einen Motor links- oder rechts-laufen lassen, allerdings nur 
+zwischen dem Nullpunkt und einem Grenzwert.</P>
+<P class=Normal><A name=pgfId-1000038000></A><FONT class=Link><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/StepMotor.java">ft.Stepper</A></FONT> 
+erweitert <TT class=Code>StepMotor</TT> ; mit <TT class=Code>home()</TT> und <TT 
+class=Code>position(count)</TT> kann man positionieren, <TT 
+class=Code>isRunning()</TT> zeigt, ob der Ausgang noch beschäftigt ist. Ein <TT 
+class=Code>Stepper</TT> schickt sich <TT class=Code>notifyAll()</TT> , wenn er 
+nicht mehr beschäftigt ist.</P>
+<P class=Normal><A name=pgfId-1000036453></A><FONT class=Link><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/AnalogView.java">ft.AnalogView</A></FONT> 
+stellt den Zustand einer analogen Eingabe dar.</P>
+<P class=Normal><A name=pgfId-1000036454></A><FONT class=Link><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/ScaledView.java">ft.ScaledView</A></FONT> 
+erweitert <TT class=Code>AnalogView</TT> und enthält einen Knopf mit einem 
+modalen Dialog, mit dem man die Skalierung und die Zyklusrate sehen und ändern 
+kann.</P>
+<P class=Normal><A name=pgfId-1000036463></A><TT class=Code><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/Diagnose.java">ft.Diagnose 
+extends java.awt.Panel</A></TT> </P>
+<P class=Normal><A name=pgfId-1000037889></A>Diese Klasse implementiert ein <TT 
+class=Code>Panel</TT> , das mit <TT class=Code>EdgeButton</TT> -, <TT 
+class=Code>MotorButton</TT> - und <TT class=Code>ScaledView</TT> -Objekten ein 
+<TT class=Code>Interface</TT> beobachtet und kontrolliert.:</P><PRE class=Dialog>C&gt; java ft.Diagnose COM1
+$ java ft.Diagnose /dev/ttyS0
+</PRE>
+<TABLE>
+  <TBODY>
+  <TR>
+    <TD>
+      <P class=Mapping-Table-Cell><A name=pgfId-1000037901></A><IMG 
+      src="4_2 Java und fischertechnik.files/skript-122.gif"> &nbsp;</P></TD>
+    <TD rowSpan=2>
+      <P class=Normal><A name=pgfId-1000037903></A><IMG 
+      src="4_2 Java und fischertechnik.files/skript-123.gif" align=left> 
+      &nbsp;</P></TD></TR>
+  <TR>
+    <TD>
+      <P class=Normal><A name=pgfId-1000037911></A><IMG 
+      src="4_2 Java und fischertechnik.files/skript-124.gif" align=left> 
+      &nbsp;</P></TD></TR></TBODY></TABLE>
+<P class=Normal><A name=pgfId-1000036477></A>In <FONT class=Link><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/ft.properties">ft.properties</A></FONT> 
+kann man die Anzeige der analogen Eingänge ausblenden.</P>
+<P class=Normal><A name=pgfId-1000038205></A>Mit <TT class=Code>main()</TT> kann 
+man Modelle manuell betreiben und kritische Werte kalibrieren.</P>
+<P class=Normal><A name=pgfId-1000036478></A><TT class=Code>Diagnose</TT> könnte 
+in einer Web-Seite als Applet betrieben werden, wenn man dem Applet Zugriff auf 
+das Communications API ermöglicht. Insgesamt könnte man eine Umgebung 
+realisieren, bei der Steuerungen in Web-Seiten als Hilfesystem eingebettet 
+sind.</P>
+<P class=Normal><A name=pgfId-1000037952></A><TT class=Code><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/industry/Record.java">ft.industry.Record 
+extends java.awt.Panel</A></TT> </P>
+<P class=Normal><A name=pgfId-1000037957></A>Diese Klasse implementiert ein <TT 
+class=Code>Panel</TT> , das mit <TT class=Code>StepMotor</TT> -Objekten ein <TT 
+class=Code>Interface</TT> beobachtet und kontrolliert. Drückt man auf <B 
+class=GUI-Item>record</B> , wird die aktuelle Position in die Standard-Ausgabe 
+geschrieben -- <TT class=Code>Record</TT> ist eine rudimentäre, nicht 
+konfigurierbare Teach-In Applikation.</P><PRE class=Dialog>C&gt; java ft.industry.Record COM1
+1	1	1	1
+17	9	9	7
+9	9	9	7
+</PRE>
+<P class=Picture><A name=pgfId-1000037963></A><IMG 
+src="4_2 Java und fischertechnik.files/skript-125.gif" align=baseline> 
+&nbsp;</P>
+<P class=Normal><A name=pgfId-1000037978></A>Mit <TT class=Code>main()</TT> kann 
+man ein Modell manuell betreiben und ein Skript erstellen.</P>
+<P class=Normal><A name=pgfId-1000038017></A><TT class=Code><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/industry.Play.java">ft.industry.Play 
+extends java.awt.Panel</A></TT> </P>
+<P class=Normal><A name=pgfId-1000038018></A>Diese Klasse implementiert ein <TT 
+class=Code>Panel</TT> , das mit <TT class=Code>Stepper</TT> -Objekten ein <TT 
+class=Code>Interface</TT> beobachtet und kontrolliert. <B 
+class=GUI-Item>record</B> gibt es hier nicht, denn die Stepper sollen von der 
+Standard-Eingabe her positioniert werden -- <TT class=Code>Play</TT> ist ein 
+rudimentärer, nicht konfigurierbarer Abspieler für <TT class=Code>Record</TT> 
+-Skripte.</P><PRE class=Dialog>C&gt; java ft.industry.Record COM1 &gt;skript
+C&gt; java ft.industry.Play COM1 &lt;skript
+</PRE>
+<P class=Normal><A name=pgfId-1000038027></A>Mit <TT class=Code>main()</TT> kann 
+man ein Modell durch ein Skript betreiben.</P></DIV>
+<DIV>
+<H3 class=Section><A name=pgfId-1000038090></A>Steuerungen</H3>
+<P class=Normal><A name=pgfId-1000038091></A>Ein objekt-orientiertes 
+Steuerprogramm für ein Fahrzeug wie <A class=XRef 
+href="http://www.vorlesungen.uos.de/informatik/robot00/html/skript-2.html#42931">Trusty</A> 
+sollte Java mit Objekten und Methoden kombinieren, die sich auf Ein- und 
+Ausgänge beziehen. Das kann ungefähr so aussehen:</P>
+<DIV><BR clear=all>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD align=right>
+      <HR>
+      <A 
+      href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/mobile/Trusty.java">4/ft/mobile/Trusty.java</A></TR></TBODY></TABLE></DIV><PRE class=Body><I><FONT color=#228b22>// Trusty.java
+</FONT></I><B><FONT color=#a020f0>package</FONT></B> ft.mobile;
+<B><FONT color=#a020f0>import</FONT></B> ft.Controller;
+<B><FONT color=#a020f0>import</FONT></B> ft.Interface;
+<I><FONT color=#228b22>/** simple control program for a moving robot that can back off.
+ */</FONT></I>
+<B><FONT color=#a020f0>public</FONT></B> <B><FONT color=#a020f0>class</FONT></B> Trusty <B><FONT color=#a020f0>extends</FONT></B> Controller {
+ <B><FONT color=#a020f0>public</FONT></B> Trusty (Interface iface) { <B><FONT color=#a020f0>super</FONT></B>(iface); }
+ <I><FONT color=#228b22>/** m1, m2 run forward.
+     if e3 (or e4) is open, back off, turn away, and go forward again.
+   */</FONT></I>
+ <B><FONT color=#a020f0>public</FONT></B> <B><FONT color=#a020f0>void</FONT></B> run () {
+   m1.left(); m2.left();
+   <B><FONT color=#a020f0>for</FONT></B> (<B><FONT color=#a020f0>int</FONT></B> count = 0; count &lt; 10; )
+     <B><FONT color=#a020f0>if</FONT></B> (!e3.isOn()) { turn(m1, m2, e1); ++ count; }
+     <B><FONT color=#a020f0>else</FONT></B> <B><FONT color=#a020f0>if</FONT></B> (!e4.isOn()) { turn(m2, m1, e2); ++ count; }
+   m1.off(); m2.off();
+ }
+ <I><FONT color=#228b22>/** use impulse counter to back off, turn away from motor a.
+   */</FONT></I>
+ <B><FONT color=#a020f0>protected</FONT></B> <B><FONT color=#a020f0>void</FONT></B> turn (Output a, Output b, Input t) {
+   a.right(); b.right(); t.count(8);
+   a.left(); t.count(2);
+   b.left();
+ }
+}
+ 
+</PRE>
+<DIV><BR clear=all>
+<HR>
+</DIV><A name=pgfId-1000038095></A><PRE class=Dialog><A name=pgfId-1000038132></A>$ java ft.Controller /dev/ttyS0 ft.mobile.Trusty</PRE>
+<P class=Picture><A name=pgfId-1000038145></A><IMG 
+src="4_2 Java und fischertechnik.files/skript-126.gif" align=baseline> 
+&nbsp;</P>
+<P class=Normal><A name=pgfId-1000038133></A>Damit das funktioniert, stellt 
+<FONT class=Link><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/Controller.java">ft.Controller</A></FONT> 
+entsprechende Objekte und Methoden bereit, lädt im Hauptprogramm ein <TT 
+class=Code>Interface</TT> -Objekt mit einem eigenen Thread sowie eine Instanz 
+des Steuerprogramms und führt <TT class=Code>run()</TT> erst dann im <I 
+class=Italic>main</I> -Thread aus, wenn dies mit dem <B class=GUI-Item>start</B> 
+-Knopf freigegeben wird.</P>
+<P class=Normal><A name=pgfId-1000038362></A>Auch der Sortierer (<A class=XRef 
+href="http://www.vorlesungen.uos.de/informatik/robot00/html/skript-9.html#87064">Pneumatik</A>) 
+kann in Java programmiert werden:</P>
+<DIV><BR clear=all>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD align=right>
+      <HR>
+      <A 
+      href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/pneumatic/Sorter.java">4/ft/pneumatic/Sorter.java</A></TR></TBODY></TABLE></DIV><PRE class=Body>  <I><FONT color=#228b22>/** process about 5 wheels.
+   */</FONT></I>
+ <B><FONT color=#a020f0>public</FONT></B> <B><FONT color=#a020f0>void</FONT></B> run () {
+   <B><FONT color=#a020f0>if</FONT></B> (diodes) left(M2);				<I><FONT color=#228b22>// start compressor and lamp
+</FONT></I>   <B><FONT color=#a020f0>if</FONT></B> (isOff(E2)) {				<I><FONT color=#228b22>// retract piston: wait 1 edge
+</FONT></I>     left(M4); e2.count(1); off(M4);
+   }
+   sleep(recover);			<I><FONT color=#228b22>// additional pressure recovery period
+</FONT></I>   moveSlider(OFF);				<I><FONT color=#228b22>// center slider
+</FONT></I> 
+   <B><FONT color=#a020f0>for</FONT></B> (<B><FONT color=#a020f0>int</FONT></B> wheel = 0; wheel &lt; 7; ++ wheel) {
+     <B><FONT color=#a020f0>boolean</FONT></B> white = isOn(E1);
+     cyclePiston();
+     moveSlider(white ? LEFT : RIGHT); moveSlider(OFF);
+   }
+   off(Mall);
+ }
+ <I><FONT color=#228b22>/** run piston back and forth once -- E2 must go off and back on.
+   */</FONT></I>
+ <B><FONT color=#a020f0>protected</FONT></B> <B><FONT color=#a020f0>void</FONT></B> cyclePiston () { right(M4); e2.count(2); off(M4); }
+ <I><FONT color=#228b22>/** move slider.
+   */</FONT></I>
+ <B><FONT color=#a020f0>protected</FONT></B> <B><FONT color=#a020f0>void</FONT></B> moveSlider (<B><FONT color=#a020f0>int</FONT></B> how) {
+   sleep(recover);
+   <B><FONT color=#a020f0>switch</FONT></B> (how) {
+   <B><FONT color=#a020f0>case</FONT></B> LEFT:		left(M1); <B><FONT color=#a020f0>break</FONT></B>;
+   <B><FONT color=#a020f0>case</FONT></B> RIGHT:		<B><FONT color=#a020f0>if</FONT></B> (diodes) right(M1); <B><FONT color=#a020f0>else</FONT></B> right(M2); <B><FONT color=#a020f0>break</FONT></B>;
+   <B><FONT color=#a020f0>case</FONT></B> OFF:		left(M3);
+   }
+   sleep(press);
+   off(M1|M3); <B><FONT color=#a020f0>if</FONT></B> (!diodes) off(M2);
+ }
+ <I><FONT color=#228b22>/** sleep in tenths of seconds.
+   */</FONT></I>
+ <B><FONT color=#a020f0>protected</FONT></B> <B><FONT color=#a020f0>void</FONT></B> sleep (<B><FONT color=#a020f0>int</FONT></B> tsec) {
+   <B><FONT color=#a020f0>try</FONT></B> { Thread.sleep(tsec*100); } <B><FONT color=#a020f0>catch</FONT></B> (InterruptedException e) { }
+ }
+ 
+</PRE>
+<DIV><BR clear=all>
+<HR>
+</DIV><A name=pgfId-1000038422></A>
+<P class=Normal><A name=pgfId-1000038807></A>Hier sieht man einen weniger 
+objekt-orientierten Programmierstil, bei dem die Aus- und Eingänge zumeist mit 
+Masken durch Methoden in <FONT class=Link><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/Controller.java">ft.Controller</A></FONT> 
+angesprochen werden.</P>
+<P class=Normal><A name=pgfId-1000038808></A><TT class=Code>Sorter</TT> liest 
+Optionen in <FONT class=Link><A class=URL 
+href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/ft.properties">ft.properties</A></FONT> 
+, die die Reaktionszeiten der Zylinder festlegen, und berücksichtigt, ob die 
+Ventile über Dioden angeschlossen sind.</P>
+<DIV><BR clear=all>
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD align=right>
+      <HR>
+      <A 
+      href="http://www.vorlesungen.uos.de/informatik/robot00/code/4/ft/pneumatic/Sorter.java">4/ft/pneumatic/Sorter.java</A></TR></TBODY></TABLE></DIV><PRE class=Body>  <I><FONT color=#228b22>/** true if wired with diodes */</FONT></I>				<B><FONT color=#a020f0>protected</FONT></B> <B><FONT color=#a020f0>boolean</FONT></B> diodes;
+ <I><FONT color=#228b22>/** pressure time for slider */</FONT></I>				<B><FONT color=#a020f0>protected</FONT></B> <B><FONT color=#a020f0>int</FONT></B> press;
+ <I><FONT color=#228b22>/** recovery time for compressor */</FONT></I>				<B><FONT color=#a020f0>protected</FONT></B> <B><FONT color=#a020f0>int</FONT></B> recover;
+  
+ <B><FONT color=#a020f0>static</FONT></B> { Interface.<B><FONT color=#a020f0>class</FONT></B>.getName(); }					<I><FONT color=#228b22>// load properties
+</FONT></I> { String prefix = getClass().getName();
+   press = Integer.getInteger(prefix+<FONT color=#bc8f8f><B>".press"</FONT></B>, 10).intValue();
+   recover = Integer.getInteger(prefix+<FONT color=#bc8f8f><B>".recover"</FONT></B>, 20).intValue();
+   diodes = Boolean.getBoolean(prefix+<FONT color=#bc8f8f><B>".diodes"</FONT></B>);
+ }
+}
+</PRE>
+<DIV><BR clear=all>
+<HR>
+</DIV><A name=pgfId-1000038470></A></DIV>
+<DIV>
+<H3 class=Section><A name=pgfId-1000038096></A>Fazit</H3>
+<P class=Normal><A name=pgfId-1000036480></A>Man kann Geräte nach dem 
+Model-View-Controller-Muster objekt-orientiert programmieren. <TT 
+class=Code>Interface</TT> agiert als Model, die grafischen Bausteine sind Views. 
+Ein Steuerprogramm für ein spezielles Gerät muß man als Controller ansehen, der 
+sich als Observer am <TT class=Code>Interface</TT> anmeldet und dann das <TT 
+class=Code>Interface</TT> beeinflußt. Passive Views können gleichzeitig als 
+Observer angemeldet sein und den Zustand eines Geräts schildern.</P>
+<P class=Normal><A name=pgfId-1000036550></A>Durch die Koppelung über 
+Thread-Synchronisation und das Observer-Modell erhält man eine geringe 
+Systembelastung und eine hohe Wiederverwendbarkeit der Klassen.</P>
+<P class=Normal><A name=pgfId-1000036483></A>Für ein Beispiel wie den 
+Schwenkroboter oder ein Fahrzeug mit Sensoren sollte man untersuchen, ob man den 
+Controller in weitere JavaBeans zerlegen kann, die man vielleicht nur mit einer 
+einfachen Skripting-Sprache (<TT class=Code> Properties</TT> , endlicher Automat 
+als Tabelle etc.) konfigurieren müßte.</P>
+<P class=Normal><A name=pgfId-1000036487></A><TT class=Code>Interface</TT> ist 
+im Code auf ein Intelligent oder Universal Interface ohne zusätzlichen Adapter 
+zugeschnitten. Es ließe sich leicht auf einen Adapter mit weiteren Eingaben und 
+Ausgaben erweitern -- wenn offengelegt wäre, wie die überhaupt angesteuert 
+werden.</P>
+<P class=Normal><A name=pgfId-1000036488></A>Verschiedene Erweiterungen sind 
+denkbar. Man kann <TT class=Code>Interface</TT> verteilen, das heißt, daß man 
+den <TT class=Code>Interface</TT> -Thread in einem mobilen Prozessor abwickelt 
+und die Observer über ein Protokoll (Funk, IR, 10baseT etc.) verbindet. Man 
+sollte dann aber, ähnlich wie beim Skalieren der analogen Eingaben, eine 
+programmierbare Filterung der Observer-Events vorsehen, um das Protokoll zu 
+entlasten. Da jedoch die Systemlast durch <TT class=Code>Interface</TT> für das 
+Intelligent Interface sehr klein ist, ist unklar, wann sich das überhaupt 
+lohnt.</P>
+<P class=Normal><A name=pgfId-1000036489></A>Vermutlich kann man <TT 
+class=Code>Interface</TT> über das Communications API auch mit dem RCX verbinden 
+-- wenn man die Konfiguration von <TT class=Code>Interface</TT> etwas variabler 
+gestaltet. Gelingt das, müßten Views und Controller austauschbar auch für LEGO 
+zu verwenden sein...</P></DIV>
+<P><BR clear=all>
+<TABLE width="100%">
+  <TBODY>
+  <TR>
+    <TD align=left><A 
+      href="http://www.vorlesungen.uos.de/informatik/robot00/html/skript-20.html"><IMG 
+      height=22 src="4_2 Java und fischertechnik.files/right.gif" width=18 
+      border=0></A> <A 
+      href="http://www.vorlesungen.uos.de/informatik/robot00/html/skript-17.html"><IMG 
+      height=22 src="4_2 Java und fischertechnik.files/up.gif" width=18 
+      border=0></A> <A 
+      href="http://www.vorlesungen.uos.de/informatik/robot00/index.html"><IMG 
+      height=22 src="4_2 Java und fischertechnik.files/toc.gif" width=18 
+      border=0></A> <A 
+      href="http://www.vorlesungen.uos.de/informatik/robot00/html/images/search.html"><IMG 
+      height=22 src="4_2 Java und fischertechnik.files/search.gif" width=18 
+      border=0></A> <A 
+      href="http://www.vorlesungen.uos.de/informatik/robot00/html/skript-18.html"><IMG 
+      height=22 src="4_2 Java und fischertechnik.files/left.gif" width=18 
+      border=0></A>
+    <TD align=right><FONT size=-1></FONT></TR></TBODY></TABLE></P></BODY></HTML>

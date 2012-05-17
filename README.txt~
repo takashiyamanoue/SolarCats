@@ -1,0 +1,150 @@
+Distributed System Recorder (SOLAR-CATS)
+
+  A computer assisted teaching system for distributed systems
+  A benchmark system for distributed systems
+
+Takashi Yamanoue
+Computing and Communications Center, Kagoshima University, Japan
+
+This is a remoto-controllable, recordable, replay-able system 
+which includs applications such like a draw and a programming environment.
+
+- This is under development. Some parts of this system don't work correctly.
+
+- This system includes remote controllable programs. This means
+  that this system may have security holes. Please stop this system
+  immediately after your use.
+
+- Please use this sytem at your own risk. We don't comply with
+  any claim for damages by using this sytem.
+
+This system can followings.
+
+- Remote-controlled draws, programming environments and Web browsers
+  at computers, which are connected to a distributed system or a network, 
+  simultaneously.  This function can be used for classes at computer 
+  laboratories.
+
+- Replaying operations of this system any times.
+
+- Evaluating a distributed system by replaying same operations 
+  on computers of the distributed system simultaneously .
+
+This system consists of the following systems.
+
+- node system
+     This system runs on each computers or terminals.
+     This system consists of applications such like a draw and
+     a simple programing environment, operation recorder-player and
+     communication node.
+     
+     There are two types of the node system. One is the teacher node
+     (nodesystem.CommunicationNode.class) and another is the student node
+     (nodesystem.StudentsNode.class). The teacher node has the right to control
+     the all nodes' communication mode.
+     There is the "RemoteControlManager" application for the controlling
+     this mode.
+
+- group manager
+     This system manages connections between the node systems.
+
+This directory includes the following files and directories.
+If this directory can be shared by node systems, you can decrease chores
+such like install procedures.
+
+- classes ...     Java classes of this classes and its sources.
+                  This directory will be the current PATH of this system.
+
+- images  ...     image files for this classes.
+
+- README.txt ...  This file
+
+- commondata ...  This directory includes Graphic images and programs 
+                  for common use by  node systems.
+
+- nodedata   ...  This directory includes files for each node systems.
+                  This directory must be writeable by all users.
+                   ex. chmod 777 nodedata
+
+- groupmanager .. A prototype for UNIX shell script which starts
+                  the group manager (nodesystem.GroupManager.class). 
+                  Please rewrite this script for your environment. 
+
+- teacher     ..  A prototype for UNIX shell script which starts the 
+                  group manager (nodesystem.GroupManager.class) and 
+                  teacher node (nodesystem.CommunicationNode.class). 
+                  Please rewrite this script for your environment. 
+
+- teacher1    ..  A prototype for UNIX shell script which starts the 
+                  teacher node only. Please rewrite this script for your 
+                  environment. 
+
+- student     ..  A prototype for UNIX shell script which starts the 
+                  student node. Please rewrite this script for your 
+                  environment. 
+
+                  % student
+                        or
+                  % student -h <group manager's address>
+
+- groupmanager.bat ... A prototype for Windows batch file which starts
+                  the group manager. Please rewrite this script for
+                  your environment. 
+
+- teacher.bat ... A prototype for Windows batch file which starts 
+                  the teacher node. Please rewrite this script for your 
+                  environment. Please note, this doesn't start the
+                  group manager. Please run this after start the
+                  group manager.
+
+- student.bat ... A prototype for Windows batch file which starts 
+                  the student node. Please rewrite this script for your 
+                  environment. 
+
+- webleap.bat ... A prototype for Windows batch file which starts
+                  the WebLEAP. Please rewrite this script for your 
+                  environment. WebLEAP is a tool for helping in
+                  English writing. Please see
+                  http://yama-linux.cc.kagoshima-u.ac.jp/~webleap
+
+-------------------------
+[NOTES] 
+- J2SE1.4.*(J2SDK1.4.*) must be installed. 
+  There are something wrong with JDK5.0(J2SE1.5.0,J2SDK1.5.0)
+
+- In order to run on X-windows, Windows must be apper
+   without wire-frame for manual positioning.
+
+- The directory "nodedata" must be writeable to all users.
+  ex. chmod 777 nodedata
+
+Usage 1. Running  a single node system
+
+  start the teacher1 or teacher.bat after rewrite one of this
+  for your environment.
+  Select an application and click the  spawn button.
+  The selected application start after some seconds.
+  Click the show recorder button for show the operation-recorder-player
+  window.
+
+Usage 2. Running node systems simultaneously
+
+  start the teacher (or groupmanager.bat and teacher.bat) after rewrite one 
+  of this for your environment. You have to memorize the domain name or IP 
+  address of the computer which runs this for the node system connection.
+
+  start student or student.bat at each computers or 
+  terminals after rewrite one of this  for your environment.
+
+  Input the domain name or IP addres of the group manager at the
+  "Group Manager" field of each node system window, and click the
+  "Join" button. 
+
+  Select the Draw from the application menu of the node system
+  which is joined to the group manager first. Then the draw
+  will shown on all joined node systems. All operations on the
+  draw of the first node system performed by all other joined node
+  systems.
+
+
+

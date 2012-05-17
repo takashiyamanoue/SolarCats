@@ -1,0 +1,752 @@
+figures(
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+169,111
+ -8,-30
+ 1,-35
+ 25,-18
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+242,97
+ 28,-19
+ 35,-14
+ 16,23
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+195,97
+ 16,-11
+ 32,-10
+ 42,1
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+170,115
+ -3,25
+ 9,48
+ 54,59
+ 89,50
+ 100,27
+ 89,5
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+191,118
+ 12,-2
+ 24,6
+ 26,12
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+191,119
+ 7,9
+ 17,14
+ 27,10
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+230,128
+ 6,-10
+ 10,-13
+ 20,-13
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+252,117
+ -4,9
+ -14,15
+ -18,12
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+206,154
+ 14,6
+ 26,6
+ 36,-4
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+149,126
+ 39,10
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+152,140
+ 38,5
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+154,152
+ 35,0
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+288,119
+ -30,15
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+292,132
+ -29,8
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+300,152
+ -35,-3
+)
+oval(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+199,201,61,59)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+175,209
+ -1,16
+ -7,23
+ -2,37
+ 15,29
+ 11,25
+ 11,11
+ 11,-3
+ 0,-7
+ -1,2
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+362,114
+ -8,-30
+ 1,-35
+ 25,-18
+)
+oval(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+392,204,61,59)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+435,100
+ 28,-19
+ 35,-14
+ 16,23
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+388,100
+ 16,-11
+ 32,-10
+ 42,1
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+363,118
+ -3,25
+ 9,48
+ 54,59
+ 89,50
+ 100,27
+ 89,5
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+384,121
+ 12,-2
+ 24,6
+ 26,12
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+384,122
+ 7,9
+ 17,14
+ 27,10
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+423,131
+ 6,-10
+ 10,-13
+ 20,-13
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+445,120
+ -4,9
+ -14,15
+ -18,12
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+399,157
+ 14,6
+ 26,6
+ 36,-4
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+342,129
+ 39,10
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+345,143
+ 38,5
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+347,155
+ 35,0
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+481,122
+ -30,15
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+485,135
+ -29,8
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+493,155
+ -35,-3
+)
+free(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+468,200
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+480,183
+ -15,4
+ -21,19
+ -1,26
+ 21,22
+ 21,6
+ 1,-1
+)
+free(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+469,188
+ 0,1
+ 0,2
+ 0,3
+ 0,4
+ 1,5
+ 2,5
+ 3,5
+ 4,5
+ 5,5
+ 5,4
+ 5,3
+ 5,2
+ 6,2
+ 6,1
+ 7,1
+ 7,0
+ 8,0
+ 9,0
+ 10,0
+ 10,1
+ 10,2
+ 11,2
+ 11,3
+ 11,4
+ 12,4
+ 13,4
+ 13,3
+ 14,3
+ 14,2
+ 15,1
+ 15,0
+ 16,0
+ 16,-1
+ 17,-1
+ 18,-1
+ 18,0
+ 18,1
+ 19,2
+ 22,4
+ 23,5
+ 23,6
+ 24,6
+ 25,6
+ 26,5
+ 26,4
+ 26,3
+ 26,2
+ 27,2
+ 27,1
+ 27,0
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+483,199
+ -14,1
+ -6,7
+ 10,5
+ 10,-1
+ 4,0
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+451,171
+ 8,9
+ 9,19
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+496,208
+ -4,18
+ -15,29
+ -18,23
+ -19,0
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+472,212
+ 5,6
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+472,229
+ 8,12
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+368,212
+ -1,16
+ -7,23
+ -2,37
+ 15,29
+ 11,25
+ 11,11
+ 11,-3
+ 0,-7
+ -1,2
+)
+oval(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+61,24,513,354)
+line(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+92,39,34,41)
+line(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+32,112,46,26)
+line(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+22,225,41,3)
+line(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+129,326,-32,41)
+line(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+245,373,-25,47)
+line(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+350,379,1,44)
+line(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+479,339,41,42)
+line(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+560,268,52,23)
+line(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+576,187,57,0)
+line(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+533,98,35,-30)
+line(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+456,52,29,-36)
+line(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+380,29,14,-23)
+line(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+310,3,2,18)
+line(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+194,11,12,28)
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+font("Dialog",1,12)
+)
+191,435,"")
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+font("Dialog",1,30)
+)
+267,439,"SOLAR-CATS")
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+158,235
+ -14,-3
+ -25,-22
+ -32,-21
+ -30,-10
+ -17,6
+ 0,10
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+350,239
+ -14,-3
+ -25,-22
+ -32,-21
+ -30,-10
+ -17,6
+ 0,10
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+280,213
+ 0,-27
+ -1,-44
+ 6,-51
+ 15,-50
+ 26,-47
+ 25,-40
+ 24,-32
+ 23,-13
+ 22,6
+ 13,12
+ 1,6
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+279,171
+ 8,12
+ 17,12
+ 23,4
+)
+line(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+287,170,0,10)
+line(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+295,170,1,11)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+258,168
+ 14,18
+ 16,36
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+468,208
+ 4,25
+ 1,64
+ 9,78
+ 20,85
+ 2,92
+ -14,80
+ -39,77
+ -48,76
+ -88,76
+ -109,79
+ -115,91
+ -130,91
+ -137,75
+ -123,61
+ -115,56
+ -115,36
+ -113,-1
+ -110,-21
+ -94,-37
+)
+curve(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+)
+273,204
+ 4,25
+ 1,64
+ 9,78
+ 20,85
+ 2,92
+ -14,80
+ -39,77
+ -48,76
+ -88,76
+ -109,79
+ -115,91
+ -130,91
+ -137,75
+ -123,61
+ -115,56
+ -115,36
+ -113,-1
+ -110,-21
+ -94,-37
+)
+)

@@ -1,0 +1,3 @@
+set classpath=%classpath%;classes;lib;comm.jar
+java nodesystem.StudentsNode
+exit

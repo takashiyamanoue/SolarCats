@@ -1,0 +1,21 @@
+®” a, start, end
+
+start © input()
+end © input()
+
+a © call(start, end)
+
+ŠÖ” ®” call(®” x,®” y)
+  | ®” i, sum, temp
+  | 
+  | ‚à‚µ x > y ‚È‚ç‚Î
+  |   | temp © x
+  |   | x © y
+  |   | y © temp
+  | ‚ğÀs‚·‚é
+  | 
+  | i ‚ğ x ‚©‚ç y ‚Ü‚Å 1 ‚¸‚Â‘‚â‚µ‚È‚ª‚çC
+  |   | sum © sum + i
+  | ‚ğŒJ‚è•Ô‚·
+  | sum ‚ğ•Ô‚·
+ŠÖ”I—¹

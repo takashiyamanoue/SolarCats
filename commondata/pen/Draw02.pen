@@ -1,0 +1,16 @@
+整数 x, y
+整数 r, g, b
+整数 n, i
+
+「個数? 」 を改行なしで印刷する
+n ← input()
+gWindowOpen(200, 200)
+i を 1 から n まで 1 ずつ増やしながら，
+  | r ← random(255)
+  | g ← random(255)
+  | b ← random(255)
+  | gColor(r, g, b)
+  | x ← random(199)
+  | y ← random(199)
+  | gFillOval(x, y, 25, 25)
+を繰り返す

@@ -1,0 +1,89 @@
+2011/01/25 18:57:07 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: Starting listen at port:31415
+
+2011/01/25 18:57:18 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: Connected from /127.0.0.1:54972
+
+2011/01/25 18:57:18 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: To /127.0.0.1:54972 no-wait.
+
+2011/01/25 18:57:18 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: from /127.0.0.1:54972 addnode-teacher
+
+2011/01/25 18:57:18 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: processing the 'addnode-teacher'...
+
+2011/01/25 18:57:18 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: port=27182
+
+2011/01/25 18:57:18 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: new serialNo=1
+
+2011/01/25 18:57:18 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: root node added
+
+2011/01/25 18:57:18 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: To /127.0.0.1:54972 root node added. xport:27182, serialNo:1
+
+2011/01/25 18:57:18 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: time is requested
+
+2011/01/25 18:57:18 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: 114 was returned.
+
+2011/01/25 18:57:18 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: ack:node 1 started. from /127.0.0.1:54972
+
+2011/01/25 18:58:50 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: Connected from /127.0.0.1:54995
+
+2011/01/25 18:58:50 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: To /127.0.0.1:54995 no-wait.
+
+2011/01/25 18:58:50 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: from /127.0.0.1:54995 addnode-student
+
+2011/01/25 18:58:50 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: processing the 'addnode-student'...
+
+2011/01/25 18:58:50 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: port=27182
+
+2011/01/25 18:58:50 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: new serialNo=2
+
+2011/01/25 18:58:50 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: To /127.0.0.1:54995 leaf node added. up=/127.0.0.1:27182, xport:27182, serialNo:2
+
+2011/01/25 18:58:50 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: time is requested
+
+2011/01/25 18:58:50 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: 1027 was returned.
+
+2011/01/25 18:58:50 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: ack:node 2 started. from /127.0.0.1:54995
+
+2011/01/25 18:59:33 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: Connected from /127.0.0.1:54997
+
+2011/01/25 18:59:33 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: To /127.0.0.1:54997 no-wait.
+
+2011/01/25 18:59:33 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: from /127.0.0.1:54997 delnode 2
+
+2011/01/25 18:59:33 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: processing the 'delnode 2'...
+
+2011/01/25 18:59:33 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: delete the node 2.
+
+2011/01/25 18:59:33 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: deleting the connection from 127.0.0.1 to upper
+
+2011/01/25 18:59:37 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: can't connect to 127.0.0.1
+
+2011/01/25 19:01:52 nodesystem.groupmanager.GroupManagerLogger info
+î•ñ: java.net.SocketException: socket closed

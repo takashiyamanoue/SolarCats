@@ -1,0 +1,73 @@
+WebLEAP(proxy 経由でのapplet版)の動かし方
+
+0.1 WebLEAP は、web サーチエンジンを使った英作文支援システムです。
+　入力した英文を様々な部分について、そのweb における出現頻度を
+　グラフィカルに表示します。また、その出現頻度をクリックすると、
+　対応する文節の KWIC 表が表示されます。
+　詳しくは
+   http://yama-linux.cc.kagoshima-u.ac.jp/~webleap
+  をご覧下さい。
+
+0.2 WebLEAP は以下の設定を行うことにより、Web ブラウザで利用できるように
+　なります。IE での動作を確認しています。firefox では動かない場合があるようです。
+
+1. WebLEAP のプログラムを置く web サーバで java が動くようにします。
+   fedora core の場合、root 権限で yum install java を実行すれば java が
+　インストールされます。
+
+2. dsr.jar を、jar -xvf dsr.jar または unzip dsr.jar で
+　解凍します。ここで dsr ディレクトリが作成され、その中に
+  webleap の動作に必要なファイルが格納されます。
+  dsr.jar は
+   http://yama-linux.cc.kagoshima-u.ac.jp/~dsr/
+  に置いています。
+
+3. dsr ディレクトリを、そのなかに含まれるすべてのファイルとともに、
+　apache が動いているサーバの、外部から html ファイル
+　をアクセスできる（見ることができる）適当なディレクトリにコピーします。
+　この場所は web ブラウザで見るとき、
+   http://<host>/<dsr の場所>/dsr
+　となっているものとします。
+
+4. dsr ディレクトリ直下の webleap.cfg ファイルをテキストエディタで開き、
+  (proxy ("webleap" "yama-linux.cc.kagoshima-u.ac.jp" "8089" )
+   を見つけます。
+　この "yama-linux.cc.kagoshima-u.ac.jp" を、<host> で置き換え、保存します。
+
+5. ファイヤーウォールが動いている場合、外部から<host> の 8089 版 tcp ポート
+　に接続できるよう、ポートを開きます。
+
+6. dsr ディレクトリ直下のシェルスクリプト webleap-proxy.sh を
+    sh ./webleap-proxy.sh
+   で実行します。これにより、webleap のアプレットから出される検索
+　コマンドをサーチエンジンに中継するプログラムが起動されます。
+　このシェルスクリプトは中継プログラムをバックグラウンドで実行
+　します。ps |grep java などで、バックグラウンドで実行されていること
+　を確認してください。
+
+7. WebLEAP のアプレットを表示する html ファイルを作成し、webサーバの
+　適当な場所に置きます。
+　作成する html ファイルは、以下の
+  codeBase= の右の部分の
+  - yama-linux.cc.kagoshima-u.ac.jp  を <host> に変更
+  - ~dsr/program を <dsr の場所> に変更
+  <param name="baseDir" value= の右の部分の
+  - yama-linux.cc.kagoshima-u.ac.jp  を <host> に変更
+  - ~dsr/program を <dsr の場所> に変更
+  して作成します。
+
+  <html>
+  <applet
+    code="application/webleap/WebLeapApplet.class"
+    width="200"
+    hight="200"
+    codeBase="http://yama-linux.cc.kagoshima-u.ac.jp/~dsr/program/dsr/classes"
+  >
+  <param name="baseDir" value="http://yama-linux.cc.kagoshima-u.ac.jp/~dsr/prog\
+ram/dsr/">
+  </applet>
+  </html>
+
+8. ブラウザで、上で書き換えた html を開き、動作確認を行います。
+
+  

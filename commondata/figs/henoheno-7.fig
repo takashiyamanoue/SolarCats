@@ -1,0 +1,160 @@
+figures(
+curve(
+attrib(
+color(-2818048)
+depth(0)
+width(5)
+)
+158,97
+ 36,-33
+ 51,-38
+ 65,-34
+ 105,5
+)
+curve(
+attrib(
+color(-2818048)
+depth(0)
+width(5)
+)
+210,94
+ -4,37
+ -11,45
+ -25,24
+ -10,0
+ 15,0
+ 34,23
+ 20,49
+)
+curve(
+attrib(
+color(-2818048)
+depth(0)
+width(5)
+)
+308,100
+ 29,-37
+ 44,-44
+ 56,-38
+ 90,-6
+)
+curve(
+attrib(
+color(-2818048)
+depth(0)
+width(5)
+)
+346,94
+ -1,38
+ -4,42
+ -16,38
+ -19,10
+ -7,-3
+ 11,-1
+ 33,17
+ 28,37
+ 18,46
+)
+curve(
+attrib(
+color(-2818048)
+depth(0)
+width(5)
+)
+282,121
+ -3,57
+ -26,82
+ -32,116
+ 8,133
+ 49,101
+)
+curve(
+attrib(
+color(-2818048)
+depth(0)
+width(5)
+)
+263,144
+ 18,8
+ 42,9
+)
+curve(
+attrib(
+color(-2818048)
+depth(0)
+width(5)
+)
+255,164
+ 24,14
+ 47,10
+)
+curve(
+attrib(
+color(-2818048)
+depth(0)
+width(5)
+)
+122,57
+ -6,109
+ -18,206
+ 25,276
+ 190,306
+ 291,262
+ 330,175
+ 318,89
+)
+curve(
+attrib(
+color(-2818048)
+depth(0)
+width(5)
+)
+420,111
+ 19,7
+ 37,8
+)
+curve(
+attrib(
+color(-2818048)
+depth(0)
+width(5)
+)
+420,81
+ 20,12
+ 38,14
+)
+fillrect(
+attrib(
+color(-52481)
+depth(0)
+width(5)
+)
+571,372,46,26)
+text(
+attrib(
+color(-16777216)
+depth(0)
+width(5)
+font("Dialog",1,12)
+)
+577,377,"next")
+clickableboxurl(
+attrib(
+color(-16777216)
+depth(0)
+width(1)
+)
+569,371,48,29,bp(0),"henoheno-8.fig")
+curve(
+attrib(
+color(-2818048)
+depth(0)
+width(5)
+)
+193,283
+ 45,4
+ 63,10
+ 86,18
+ 126,23
+)
+)
